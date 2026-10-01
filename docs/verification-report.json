@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-01",
+  "status": "public unsigned prerelease, not production release",
+  "host": "macOS-26.5.2-arm64-arm-64bit",
+  "conversion_checks": [
+    {
+      "test": "convert-docx",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 2 pages"
+    },
+    {
+      "test": "original-preserved-docx",
+      "passed": true
+    },
+    {
+      "test": "convert-pptx",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 3 pages"
+    },
+    {
+      "test": "original-preserved-pptx",
+      "passed": true
+    },
+    {
+      "test": "convert-xlsx",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 1 pages"
+    },
+    {
+      "test": "original-preserved-xlsx",
+      "passed": true
+    },
+    {
+      "test": "convert-hwp",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 1 pages"
+    },
+    {
+      "test": "original-preserved-hwp",
+      "passed": true
+    },
+    {
+      "test": "convert-hwpx",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 1 pages"
+    },
+    {
+      "test": "original-preserved-hwpx",
+      "passed": true
+    },
+    {
+      "test": "literal-path",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 2 pages"
+    },
+    {
+      "test": "image-png",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 1 pages\nCoreGraphics PDF has logged an error. Set environment variable \"CG_PDF_VERBOSE\" to learn more."
+    },
+    {
+      "test": "image-tiff",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 2 pages\nCoreGraphics PDF has logged an error. Set environment variable \"CG_PDF_VERBOSE\" to learn more."
+    },
+    {
+      "test": "range-and-original",
+      "passed": true,
+      "exit": 0,
+      "output": "Rendered: 2 pages"
+    },
+    {
+      "test": "range-and-portrait",
+      "passed": true,
+      "exit": 0,
+      "output": "Rendered: 2 pages"
+    },
+    {
+      "test": "range-and-landscape",
+      "passed": true,
+      "exit": 0,
+      "output": "Rendered: 2 pages"
+    },
+    {
+      "test": "invalid-range-0-1",
+      "passed": true,
+      "exit": 1,
+      "output": "페이지 범위를 1 ~ 3 안에서 입력해 주세요."
+    },
+    {
+      "test": "invalid-range-2-1",
+      "passed": true,
+      "exit": 1,
+      "output": "페이지 범위를 1 ~ 3 안에서 입력해 주세요."
+    },
+    {
+      "test": "invalid-range-1-4",
+      "passed": true,
+      "exit": 1,
+      "output": "페이지 범위를 1 ~ 3 안에서 입력해 주세요."
+    },
+    {
+      "test": "invalid-range--1-2",
+      "passed": true,
+      "exit": 1,
+      "output": "페이지 범위를 1 ~ 3 안에서 입력해 주세요."
+    },
+    {
+      "test": "invalid-layout",
+      "passed": true,
+      "exit": 1,
+      "output": "페이지 범위를 1 ~ 3 안에서 입력해 주세요."
+    },
+    {
+      "test": "reject-broken.docx",
+      "passed": true,
+      "exit": 1,
+      "output": "문서 형식이 손상되었거나 암호화되어 있습니다."
+    },
+    {
+      "test": "reject-unknown.bin",
+      "passed": true,
+      "exit": 1,
+      "output": "지원하지 않는 형식입니다: .bin\nOffice 문서, HWP/HWPX, 텍스트, HTML, PDF, 이미지 등을 선택해 주세요."
+    },
+    {
+      "test": "reject-broken.pdf",
+      "passed": true,
+      "exit": 1,
+      "output": "CoreGraphics PDF has logged an error. Set environment variable \"CG_PDF_VERBOSE\" to learn more.\nPDF를 읽을 수 없습니다. 암호화된 PDF는 먼저 잠금을 해제해 주세요."
+    },
+    {
+      "test": "reject-locked-pdf",
+      "passed": true,
+      "exit": 1,
+      "output": "PDF를 읽을 수 없습니다. 암호화된 PDF는 먼저 잠금을 해제해 주세요."
+    },
+    {
+      "test": "utf8-text",
+      "passed": true,
+      "exit": 0,
+      "output": "Converted: 1 pages"
+    }
+  ],
+  "network_check": {
+    "passed": true,
+    "test": "engine denies outbound HTTP including loopback",
+    "requests": []
+  },
+  "core_checks": [
+    "exclusive save does not overwrite existing file",
+    "collision generates new filename",
+    "pre-cancelled job is rejected"
+  ],
+  "ui_checks": [
+    "page 2 of 3 saved beside original; existing sample.pdf preserved",
+    "custom save panel produced 3-page ui-custom-save.pdf",
+    "native macOS print dialog opened and cancelled",
+    "updated app first-run Quick Action registration succeeded",
+    "HWPX Korean text and table preview visible",
+    "Finder workflow launch opened DOCX preview after updated first-run registration"
+  ],
+  "signatures": "ad hoc wrapper and hwp; strict deep verification passed after conversions; LibreOffice vendor signature preserved",
+  "icon": "generated Assets/AppIcon.png; 10 iconset sizes; AppIcon.icns embedded",
+  "source_audit": {
+    "libreoffice": "26.2.6.3 core, dictionaries, help, translations, 149 upstream external archives",
+    "hwp": "1.3.1 source and 276 Cargo.lock crate archives; license notices preserved"
+  },
+  "limits": [
+    "Apple Silicon only; macOS 13 deployment target, tested only on macOS 26.5.2 current host",
+    "HWP/HWPX complex equations, charts and OLE may differ",
+    "Pages/Keynote/Numbers require installed Apple apps; those conversions untested",
+    "pre-cancellation tested; live cancellation and timeout not fully exercised",
+    "network restriction uses deprecated macOS sandbox-exec; other OS versions untested",
+    "no claim of comprehensive malware resistance or perfect fidelity for arbitrary files"
+  ],
+  "remaining": [
+    "Developer ID signing identity absent (0 valid identities)",
+    "Apple notarization and Gatekeeper assessment of final wrapper",
+    "independent clean Mac installation and Finder Quick Action validation"
+  ],
+  "license": "TopDF code and documentation MIT; third-party components retain their own licenses",
+  "support": "https://github.com/kanghyunmin-bot/topdf/issues"
+}

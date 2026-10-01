@@ -20,7 +20,7 @@ if STAGE.exists():shutil.rmtree(STAGE)
 STAGE.mkdir()
 subprocess.run(['ditto',str(APP),str(STAGE/APP.name)],check=True)
 (STAGE/'Applications').symlink_to('/Applications')
-(STAGE/'먼저 읽어주세요.txt').write_text('PDF로 변환 '+VERSION+'\n\n이 파일은 서명·공증 전 로컬 검증용 RC입니다. 정식 배포하지 마세요.\nApple Silicon / macOS 13 이상\n앱을 응용 프로그램 폴더로 복사한 뒤 한 번 실행하면 Finder의 PDF화 메뉴를 설치합니다.\nHWP/HWPX는 실험적 지원이며 수식·차트 등 제한이 있습니다.\n사용 안내, 개인정보 안내, 제3자 라이선스는 앱의 도움말에서 볼 수 있습니다.\n대응 소스 번들을 앱과 함께 제공해야 합니다.\n',encoding='utf-8')
+(STAGE/'먼저 읽어주세요.txt').write_text('PDF로 변환 '+VERSION+'\n\n이 파일은 서명·공증 전 공개 사전 릴리스 RC입니다. 정식 배포 버전이 아닙니다.\nApple Silicon / macOS 13 이상\n앱을 응용 프로그램 폴더로 복사한 뒤 한 번 실행하면 Finder의 PDF화 메뉴를 설치합니다.\nHWP/HWPX는 실험적 지원이며 수식·차트 등 제한이 있습니다.\n사용 안내, 개인정보 안내, 제3자 라이선스는 앱의 도움말에서 볼 수 있습니다.\n대응 소스 번들을 앱과 함께 제공해야 합니다.\n',encoding='utf-8')
 dmg=OUT/f'TopDF-{VERSION}-arm64-UNSIGNED.dmg'
 if dmg.exists():dmg.unlink()
 subprocess.run(['hdiutil','create','-quiet','-volname','PDF로 변환 RC','-srcfolder',str(STAGE),'-format','UDZO',str(dmg)],check=True)
@@ -39,10 +39,10 @@ manifest=[{'path':name,'bytes':path.stat().st_size,'sha256':digest(path)} for pa
 with zipfile.ZipFile(sourcezip,'w',compression=zipfile.ZIP_STORED,allowZip64=True) as z:
  for path,name in files:z.write(path,name)
  z.writestr('SOURCE-MANIFEST.json',json.dumps(manifest,indent=2))
- z.writestr('README.txt','Corresponding engine sources and dependency archives for TopDF '+VERSION+'.\nLibreOffice official unmodified binaries: 26.2.6.3. Source tarballs include core, dictionaries, help and translations, plus all 149 download.lst external archives.\nHWP CLI: v1.3.1 plus all 276 Cargo.lock registry archives (including inactive platform/build dependencies).\nAll archive hashes were checked against upstream metadata. This bundle preserves each upstream archive and its license files.\nDistribute this source bundle with the app. Keep public source links available.\nOur application source is separate and has not been assigned an open-source license.\n')
+ z.writestr('README.txt','Corresponding engine sources and dependency archives for TopDF '+VERSION+'.\nLibreOffice official unmodified binaries: 26.2.6.3. Source tarballs include core, dictionaries, help and translations, plus all 149 download.lst external archives.\nHWP CLI: v1.3.1 plus all 276 Cargo.lock registry archives (including inactive platform/build dependencies).\nAll archive hashes were checked against upstream metadata. This bundle preserves each upstream archive and its license files.\nDistribute this source bundle with the app. Keep public source links available.\nTopDF application source is MIT-licensed at https://github.com/kanghyunmin-bot/topdf/tree/v1.0.0-rc.1. Its MIT license does not replace third-party engine licenses.\n')
 with zipfile.ZipFile(sourcezip) as z:assert z.testzip() is None
 artifacts=[]
 for path in [dmg,sourcezip]:artifacts.append({'file':path.name,'sha256':digest(path),'bytes':path.stat().st_size})
 (OUT/'SHA256SUMS.txt').write_text(''.join(r['sha256']+'  '+r['file']+'\n' for r in artifacts))
-(OUT/'release-manifest.json').write_text(json.dumps({'version':VERSION,'status':'unsigned_release_candidate','architecture':'arm64','minimum_macos':'13.0','artifacts':artifacts,'publish_blockers':['Developer ID signing and Apple notarization','independent clean Mac installation test','public operator and contact information'],'engines':{'libreoffice':'26.2.6.3 official unmodified','hwp':'1.3.1 upstream binary, signature only changed'}},ensure_ascii=False,indent=2))
+(OUT/'release-manifest.json').write_text(json.dumps({'version':VERSION,'status':'unsigned_release_candidate','architecture':'arm64','minimum_macos':'13.0','artifacts':artifacts,'publish_blockers':['Developer ID signing and Apple notarization','independent clean Mac installation test'],'engines':{'libreoffice':'26.2.6.3 official unmodified','hwp':'1.3.1 upstream binary, signature only changed'}},ensure_ascii=False,indent=2))
 print('Packaged:',*[p.name for p in [dmg,sourcezip]],sep='\n')

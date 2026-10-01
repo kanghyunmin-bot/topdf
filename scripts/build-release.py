@@ -14,6 +14,7 @@ subprocess.run(['ditto',str(ROOT/'Engines/LibreOffice.app'),str(engines/'LibreOf
 shutil.copy2(ROOT/'Engines/hwp/hwp',engines/'hwp')
 shutil.copytree(ROOT/'legal',resources/'Licenses')
 shutil.copy2(ROOT/'Assets/AppIcon.icns',resources/'AppIcon.icns')
+shutil.copy2(ROOT/'LICENSE',resources/'TopDF-LICENSE.txt')
 for name in ['사용 안내.html','개인정보 안내.html']:
  if (ROOT/'docs'/name).exists(): shutil.copy2(ROOT/'docs'/name,resources/name)
 subprocess.run([sys.executable,str(ROOT/'scripts/install-quick-action.py'),str(resources/'PDF화.workflow')],check=True)
