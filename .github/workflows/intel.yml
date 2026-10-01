@@ -46,9 +46,11 @@ jobs:
           hdiutil verify dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg
           shasum -a 256 dist/*.dmg > dist/intel-SHA256.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: TopDF-macos-intel-unsigned
           path: |
             dist/*
             tests/release-output/test-report.json
+            tests/release-output/*.pdf
           retention-days: 14

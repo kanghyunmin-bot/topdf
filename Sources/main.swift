@@ -93,6 +93,9 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
   """
   try settings.write(to:profileUser.appendingPathComponent("registrymodifications.xcu"),atomically:true,encoding:.utf8)
   process.arguments = ["-env:UserInstallation=\(tmp.appendingPathComponent("profile").absoluteString)","--headless","--nologo","--nodefault","--nofirststartwizard","--convert-to","pdf","--outdir",destination.path,input.path]
+  if ext == "txt", String(data: try Data(contentsOf: input), encoding: .utf8) != nil {
+   process.arguments?.insert("--infilter=Text (encoded):UTF8", at: 1)
+  }
  } else {
   guard let kind = apple[ext], let script = Bundle.main.url(forResource: kind, withExtension: "scpt") ?? Bundle.main.url(forResource: kind, withExtension: "applescript") else { throw fail("Apple 문서 변환 스크립트가 없습니다.") }
   process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript"); process.arguments = [script.path,input.path,output.path]

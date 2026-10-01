@@ -63,6 +63,6 @@ w=PdfWriter();w.add_blank_page(300,400);w.encrypt('secret');w.write(FIX/'locked.
 run('reject-locked-pdf',['--convert-test',FIX/'locked.pdf',OUT/'locked.pdf'],False)
 (FIX/'한글.txt').write_text('한글 텍스트 변환\nEnglish 123\n',encoding='utf-8')
 run('utf8-text',['--convert-test',FIX/'한글.txt',OUT/'text.pdf'])
-assert '한글' in PdfReader(OUT/'text.pdf').pages[0].extract_text()
+assert '한글' in PdfReader(OUT/'text.pdf').pages[0].extract_text(), repr(PdfReader(OUT/'text.pdf').pages[0].extract_text())
 (OUT/'test-report.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
 print('PASS:',len(results),'checks')
