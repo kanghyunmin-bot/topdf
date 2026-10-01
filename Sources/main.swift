@@ -62,6 +62,13 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
  defer { try? FileManager.default.removeItem(at: tmp) }
  let input = tmp.appendingPathComponent(source.lastPathComponent)
  try FileManager.default.copyItem(at: source, to: input)
+ // A Unicode BOM makes UTF-8 text independent of the user's OS locale.
+ if ext == "txt" {
+  let bytes = try Data(contentsOf: input)
+  if String(data: bytes, encoding: .utf8) != nil && !bytes.starts(with: [0xef, 0xbb, 0xbf]) {
+   try (Data([0xef, 0xbb, 0xbf]) + bytes).write(to: input)
+  }
+ }
  var output = tmp.appendingPathComponent("export.pdf")
  let process = Process()
  guard Bundle.main.resourceURL != nil else { throw fail("변환 엔진을 찾지 못했습니다.") }
