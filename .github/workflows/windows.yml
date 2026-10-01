@@ -22,6 +22,9 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Force build/windows/tests | Out-Null
+          foreach ($exe in @('build/windows/app/TopDF.exe','build/windows/app/Engines/hwp.exe','build/windows/app/Engines/LibreOffice/program/soffice.bin','build/windows/app/Engines/LibreOffice/program/soffice.com')) {
+            New-NetFirewallRule -DisplayName ('TopDF offline verification ' + $exe) -Direction Outbound -Program (Resolve-Path $exe).Path -Action Block | Out-Null
+          }
           foreach ($ext in @('docx','pptx','xlsx','hwp','hwpx')) {
             $source = (Resolve-Path "tests/sample.$ext").Path
             $output = "$pwd/build/windows/tests/$ext.pdf"
