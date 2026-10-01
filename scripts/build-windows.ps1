@@ -33,7 +33,12 @@ foreach ($lib in $asset.libraries.PSObject.Properties) {
  if ($lib.Value.type -ne 'package') { continue }
  $parts=$lib.Name.Split('/');$dir=Join-Path $nuget "$($parts[0].ToLowerInvariant())/$($parts[1])"
  $target=Join-Path $out "Licenses/nuget/$($parts[0])/$($parts[1])";New-Item -ItemType Directory -Force $target | Out-Null
- Get-ChildItem $dir -Recurse -File | Where-Object { $_.Name -match '^(LICENSE|NOTICE|COPYING|THIRD-PARTY)' -or $_.Extension -eq '.nuspec' } | ForEach-Object { Copy-Item $_.FullName $target -Force }
+ Get-ChildItem $dir -Recurse -File | Where-Object { $_.Name -match '^(LICENSE|NOTICE|COPYING|THIRD.?PARTY)' -or $_.Extension -eq '.nuspec' } | ForEach-Object {
+  $relative = [System.IO.Path]::GetRelativePath($dir,$_.FullName)
+  $notice = Join-Path $target $relative
+  New-Item -ItemType Directory -Force (Split-Path $notice -Parent) | Out-Null
+  Copy-Item $_.FullName $notice -Force
+ }
  $deps += @{ name=$parts[0];version=$parts[1];source="https://www.nuget.org/packages/$($parts[0])/$($parts[1])" }
 }
 $deps | ConvertTo-Json -Depth 5 | Set-Content "$out/Licenses/nuget-packages.json" -Encoding utf8
