@@ -33,6 +33,14 @@ jobs:
             if ($p.ExitCode -ne 0 -or !(Test-Path $output)) { Get-Content "$output.error.txt" -ErrorAction SilentlyContinue; throw "Conversion failed: $ext" }
             if ((Get-FileHash $source).Hash -ne $before) { throw 'Original changed' }
           }
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify text, pages and selected vector output
+        shell: pwsh
+        run: |
+          pip install pypdf
+          python tests/validate_windows.py
       - name: Package
         shell: pwsh
         run: |
@@ -45,4 +53,5 @@ jobs:
             dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
             dist/windows-SHA256.txt
             build/windows/tests/*.pdf
+            build/windows/tests/test-report.json
           retention-days: 14

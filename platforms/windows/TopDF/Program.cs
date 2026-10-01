@@ -17,6 +17,10 @@ static class Program {
    try { Engine.Convert(args[1],args[2],CancellationToken.None).GetAwaiter().GetResult(); return 0; }
    catch(Exception e) { File.WriteAllText(args[2]+".error.txt",e.ToString()); return 1; }
   }
+  if(args.Length==6 && args[0]=="--render-test") {
+   try {Engine.Export(args[1],args[2],int.Parse(args[3]),int.Parse(args[4]),int.Parse(args[5]));return 0;}
+   catch(Exception e){File.WriteAllText(args[2]+".error.txt",e.ToString());return 1;}
+  }
   Application.Run(new MainForm(args.FirstOrDefault()));return 0;
  }
 }
@@ -34,14 +38,14 @@ static class Engine {
   }
   string dir=Path.Combine(Path.GetTempPath(),"TopDF-"+Guid.NewGuid());Directory.CreateDirectory(dir);
   try {
-   string copy=Path.Combine(dir,Path.GetFileName(input));File.Copy(input,copy);var pi=new ProcessStartInfo{UseShellExecute=false,CreateNoWindow=true,RedirectStandardError=true,RedirectStandardOutput=true};
+   string copy=Path.Combine(dir,Path.GetFileName(input));File.Copy(input,copy);if(ext==".txt"){var bytes=File.ReadAllBytes(copy);try{new System.Text.UTF8Encoding(false,true).GetString(bytes);if(!(bytes.Length>=3&&bytes[0]==239&&bytes[1]==187&&bytes[2]==191))File.WriteAllBytes(copy,new byte[]{239,187,191}.Concat(bytes).ToArray());}catch(System.Text.DecoderFallbackException){}}var pi=new ProcessStartInfo{UseShellExecute=false,CreateNoWindow=true,RedirectStandardError=true,RedirectStandardOutput=true};
    if(ext==".hwp"||ext==".hwpx") {
     pi.FileName=Path.Combine(Root,"Engines","hwp.exe");foreach(var a in new[]{"render",copy,"--output",output,"--format","pdf","--font-dir",Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),"Fonts")})pi.ArgumentList.Add(a);
    } else {
     var formats=new[]{".doc",".docx",".docm",".dot",".dotx",".ppt",".pptx",".pptm",".pps",".ppsx",".xls",".xlsx",".xlsm",".odt",".ods",".odp",".rtf",".csv",".tsv",".txt",".html",".htm",".epub"};
     if(!formats.Contains(ext))throw new Exception("지원하지 않는 파일 형식입니다.");
     string profile=Path.Combine(dir,"profile");Directory.CreateDirectory(profile+"/user");
-    File.WriteAllText(profile+"/user/registrymodifications.xcu","<?xml version=\"1.0\"?><oor:items xmlns:oor=\"http://openoffice.org/2001/registry\"><item oor:path=\"/org.openoffice.Office.Common/Security/Scripting\"><prop oor:name=\"MacroSecurityLevel\" oor:op=\"fuse\"><value>3</value></prop></item><item oor:path=\"/org.openoffice.Office.Calc/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item></oor:items>");
+    File.WriteAllText(profile+"/user/registrymodifications.xcu","<?xml version=\"1.0\"?><oor:items xmlns:oor=\"http://openoffice.org/2001/registry\"><item oor:path=\"/org.openoffice.Office.Common/Security/Scripting\"><prop oor:name=\"MacroSecurityLevel\" oor:op=\"fuse\"><value>3</value></prop></item><item oor:path=\"/org.openoffice.Office.Calc/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item><item oor:path=\"/org.openoffice.Office.Writer/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item></oor:items>");
     pi.FileName=Path.Combine(Root,"Engines","LibreOffice","program","soffice.com");pi.Environment["PYTHONDONTWRITEBYTECODE"]="1";
     foreach(var a in new[]{"-env:UserInstallation="+new Uri(profile).AbsoluteUri,"--headless","--nologo","--nodefault","--norestore","--convert-to","pdf","--outdir",dir,copy})pi.ArgumentList.Add(a);
    }

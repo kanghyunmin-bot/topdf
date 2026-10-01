@@ -1,0 +1,1 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.topdf.test"><uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35"/><instrumentation android:name="local.topdf.OfflineTests" android:targetPackage="local.topdf"/><application android:label="TopDF offline tests"/></manifest>

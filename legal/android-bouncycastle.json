@@ -1,0 +1,38 @@
+[
+  {
+    "file": "bcprov-jdk15to18-1.86.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk15to18/1.86/bcprov-jdk15to18-1.86.jar",
+    "sha256": "fc50334d4d87b4272e72fa95ca748ead05bdef02ef760a5b13f64ffee317cd81",
+    "license": "MIT"
+  },
+  {
+    "file": "bcprov-jdk15to18-1.86-sources.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk15to18/1.86/bcprov-jdk15to18-1.86-sources.jar",
+    "sha256": "434b5d4b25811177d950fb66640133950d749d4121c8ca49c2d89e9ffc5314db",
+    "license": "MIT"
+  },
+  {
+    "file": "bcpkix-jdk15to18-1.86.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk15to18/1.86/bcpkix-jdk15to18-1.86.jar",
+    "sha256": "cf70d32101e53c3f92d55ba5c5f1329af51a9a44057fd21e81e20cfd6cd64953",
+    "license": "MIT"
+  },
+  {
+    "file": "bcpkix-jdk15to18-1.86-sources.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk15to18/1.86/bcpkix-jdk15to18-1.86-sources.jar",
+    "sha256": "a601ed466b1f4a6ab68584285c2ddc0858d9a6fcd4a33ff58509b6b6fc52e534",
+    "license": "MIT"
+  },
+  {
+    "file": "bcutil-jdk15to18-1.86.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcutil-jdk15to18/1.86/bcutil-jdk15to18-1.86.jar",
+    "sha256": "e72ef8a0fcad295207529b268ee02eb72acc7c83ec2e3a9df90cbed9380e3990",
+    "license": "MIT"
+  },
+  {
+    "file": "bcutil-jdk15to18-1.86-sources.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/bouncycastle/bcutil-jdk15to18/1.86/bcutil-jdk15to18-1.86-sources.jar",
+    "sha256": "6b7b3297586a8a3b50990a169de21ca857adcf731285b539d04e727c6650bcbf",
+    "license": "MIT"
+  }
+]

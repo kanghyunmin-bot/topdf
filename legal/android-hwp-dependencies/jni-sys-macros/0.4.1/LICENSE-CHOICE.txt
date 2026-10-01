@@ -1,0 +1,1 @@
+This dual-licensed crate is distributed under its Apache-2.0 option. Original crate source and metadata retained. Upstream archive SHA-256 is in android-hwp-dependencies.json. No upstream NOTICE or license file was present in this crate archive.
