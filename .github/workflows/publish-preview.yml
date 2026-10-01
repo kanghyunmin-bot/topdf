@@ -24,6 +24,7 @@ jobs:
           RUN_ID: ${{ matrix.platform == 'windows' && inputs.windows_run || inputs.intel_run }}
         run: |
           [[ "$RUN_ID" =~ ^[0-9]+$ ]]
+          gh run watch "$RUN_ID" --exit-status --interval 30 --repo '${{ github.repository }}'
           test "$(gh api repos/${{ github.repository }}/actions/runs/$RUN_ID --jq .conclusion)" = success
           gh release view v1.0.0-rc.2 --repo '${{ github.repository }}'
       - uses: actions/download-artifact@v4
