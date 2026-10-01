@@ -1,0 +1,27 @@
+# Generated engines, downloads, builds and distribution archives
+/Engines/
+/downloads/
+/build/
+/dist/
+# Unrelated local records: never upload
+/wifi-records.txt
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+*.p12
+*.pfx
+*.key
+# Generated test outputs
+/tests/release-output/
+/tests/release-fixtures/
+/tests/output/
+/tests/debug-lo/
+/tests/*.pdf
+/Assets/AppIcon.iconset/
+# Historical one-shot migration and unused Office scripts
+/scripts/prepare-release-code.py
+/scripts/word.applescript
+/scripts/powerpoint.applescript
+/scripts/excel.applescript
