@@ -11,7 +11,7 @@ public final class OfflineTests extends Instrumentation {
  public void onStart(){Bundle result=new Bundle();try{
   Context c=getTargetContext();File root=new File(c.getExternalFilesDir(null),"offline-tests");root.mkdirs();
   StringBuilder report=new StringBuilder();int serial=1;
-  for(String ext:new String[]{"docx","pptx","xlsx","hwp","hwpx","txt","png","tiff"}){
+  for(String ext:new String[]{"docx","pptx","xlsx","hwp","hwpx","txt","png","tiff","mono.tiff","gray.tiff"}){
    File input=new File(root,"sample."+ext),output=new File(root,ext+".pdf");
    try(InputStream in=getContext().getAssets().open("sample."+ext);OutputStream out=new FileOutputStream(input)){byte[] buf=new byte[65536];int n;while((n=in.read(buf))!=-1)out.write(buf,0,n);}
    CountDownLatch done=new CountDownLatch(1);String[] error={null};int[] pid={0};final int generation=serial++;
@@ -21,7 +21,7 @@ public final class OfflineTests extends Instrumentation {
    if(!bound)throw new Exception("bind failed");boolean finished=done.await(180,TimeUnit.SECONDS);c.unbindService(conn);if(pid[0]!=0)android.os.Process.killProcess(pid[0]);
    if(!finished||error[0]!=null)throw new Exception(ext+": "+error[0]+" finished="+finished);
    com.tom_roush.pdfbox.android.PDFBoxResourceLoader.init(c);
-   try(PDDocument d=PDDocument.load(output)){String text=new PDFTextStripper().getText(d);int expected=(ext.equals("docx")||ext.equals("tiff"))?2:ext.equals("pptx")?3:1;if(d.getNumberOfPages()!=expected||(!ext.equals("png")&&!ext.equals("tiff")&&(!text.contains("123")||!(text.contains("한글")||text.contains("변환")))))throw new Exception(ext+" pages="+d.getNumberOfPages()+" text="+text);report.append(ext+" passed\n");}
+   try(PDDocument d=PDDocument.load(output)){String text=new PDFTextStripper().getText(d);int expected=(ext.equals("docx")||ext.equals("tiff"))?2:ext.equals("pptx")?3:1;if(d.getNumberOfPages()!=expected||(!ext.equals("png")&&!ext.endsWith("tiff")&&(!text.contains("123")||!(text.contains("한글")||text.contains("변환")))))throw new Exception(ext+" pages="+d.getNumberOfPages()+" text="+text);report.append(ext+" passed\n");}
   }
   for(int layout=0;layout<3;layout++){
    File out=new File(root,"range-"+layout+".pdf");OfflineEngine.export(c,new File(root,"docx.pdf"),out,2,2,layout);

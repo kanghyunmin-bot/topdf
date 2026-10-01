@@ -42,7 +42,11 @@ jobs:
           ditto 'build/release-intel/PDF로 변환.app' 'build/intel-dmg/PDF로 변환.app'
           ln -s /Applications build/intel-dmg/Applications
           cp LICENSE build/intel-dmg/LICENSE.txt
-          hdiutil create -quiet -volname 'TopDF Intel RC' -srcfolder build/intel-dmg -format UDZO dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg
+          df -h .
+          for attempt in 1 2 3; do
+            if hdiutil create -ov -volname 'TopDF Intel RC' -srcfolder build/intel-dmg -fs HFS+ -format UDZO dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg; then break; fi
+            sleep 5
+          done
           hdiutil verify dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg
           shasum -a 256 dist/*.dmg > dist/intel-SHA256.txt
       - uses: actions/upload-artifact@v4

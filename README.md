@@ -15,7 +15,7 @@ macOS·Windows·Android에서 문서를 기기 안에서 PDF로 변환합니다.
 | Apple Silicon Mac, macOS 13+ | ARM64 DMG | 개발 Mac 변환·저장 26개 검사, 이전 RC의 Finder·저장·인쇄창 UI 검사 |
 | Intel Mac, macOS 13+ | Intel DMG | 실제 Intel macOS 15 CI에서 변환·저장 26개 검사 |
 | Windows x64, Windows 10 2004+/11 | ZIP 압축 해제 후 TopDF.exe | 실제 Windows CI에서 외부 통신 차단 후 Office·한글 변환, 한글 내용·페이지·범위·방향·텍스트 검사 |
-| Android 8+, ARM64/x86_64 | APK | ARM64 Android 15 에뮬레이터의 Wi-Fi/모바일 데이터 비활성 상태에서 11개 문서·TIFF·범위·방향 검사; INTERNET 권한 없음 |
+| Android 8+, ARM64/x86_64 | APK | ARM64 Android 15 에뮬레이터의 Wi-Fi/모바일 데이터 비활성 상태에서 13개 문서·TIFF·범위·방향 검사; INTERNET 권한 없음 |
 
 macOS Developer ID 서명·Apple 공증, Windows 배포자 인증서, 독립된 실제 기기와 최소 지원 OS의 설치·인쇄 검증은 남아 있습니다. Android x86_64 엔진은 컴파일 검증을 했으며 실제 실행 검증은 ARM64를 대상으로 했습니다. Android APK는 유지 가능한 사전 릴리스 키로 서명했습니다. 정식 앱 스토어 배포 버전이 아닙니다.
 

@@ -27,7 +27,13 @@ pub extern "system" fn Java_local_topdf_NativeHwp_decodeTiff(mut env:JNIEnv,_cla
    let rgba:Vec<u8>=match color {
     tiff::ColorType::RGB(_)=>bytes.chunks_exact(3).flat_map(|p|[p[0],p[1],p[2],255]).collect(),
     tiff::ColorType::RGBA(_)=>bytes,
-    tiff::ColorType::Gray(_)=>bytes.into_iter().flat_map(|g|[g,g,g,255]).collect(),
+    tiff::ColorType::Gray(bits)=>{
+     let pixels=if bits<8 {
+      let max=(1u16<<bits)-1;let stride=(w as usize*bits as usize+7)/8;
+      if bytes.len()==w as usize*h as usize {bytes.into_iter().map(|v|if v as u16<=max{(v as u16*255/max)as u8}else{v}).collect::<Vec<_>>()}
+      else {(0..h as usize).flat_map(|y|(0..w as usize).map(move |x|(y,x))).map(|(y,x)|{let bit=x*bits as usize;let v=(bytes[y*stride+bit/8]>>(8-bits as usize-bit%8)) as u16 & max;(v*255/max)as u8}).collect::<Vec<_>>()}
+     }else{bytes};pixels.into_iter().flat_map(|g|[g,g,g,255]).collect()
+    },
     tiff::ColorType::GrayA(_)=>bytes.chunks_exact(2).flat_map(|p|[p[0],p[0],p[0],p[1]]).collect(),
     tiff::ColorType::CMYK(_)=>bytes.chunks_exact(4).flat_map(|p|{let k=255-p[3]as u16;[((255-p[0]as u16)*k/255)as u8,((255-p[1]as u16)*k/255)as u8,((255-p[2]as u16)*k/255)as u8,255]}).collect(),
     _=>return Err("Unsupported TIFF color format".into())

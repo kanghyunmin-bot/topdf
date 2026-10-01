@@ -41,6 +41,14 @@ foreach ($lib in $asset.libraries.PSObject.Properties) {
  }
  $deps += @{ name=$parts[0];version=$parts[1];source="https://www.nuget.org/packages/$($parts[0])/$($parts[1])" }
 }
+# Include redistributable .NET runtime notices from the official SDK distribution.
+$dotnetRoot = Split-Path (Get-Command dotnet).Source -Parent
+Get-ChildItem $dotnetRoot -File | Where-Object { $_.Name -match '^(LICENSE|NOTICE|COPYING|THIRD.?PARTY)' } | ForEach-Object {
+ $runtimeNotices = Join-Path $out 'Licenses/dotnet-runtime'
+ New-Item -ItemType Directory -Force $runtimeNotices | Out-Null
+ Copy-Item $_.FullName $runtimeNotices -Force
+}
+Copy-Item "$out/TopDF.deps.json" "$out/Licenses/dotnet-dependencies.json"
 $deps | ConvertTo-Json -Depth 5 | Set-Content "$out/Licenses/nuget-packages.json" -Encoding utf8
 @'
 TopDF 1.0.0-rc.2 Windows x64 — unsigned preview
