@@ -11,7 +11,10 @@ mac=app/'Contents/MacOS';resources=app/'Contents/Resources'
 mac.mkdir(parents=True);resources.mkdir(parents=True)
 subprocess.run(['swiftc','-O','-target',ARCH+'-apple-macos13',str(ROOT/'Sources/main.swift'),'-o',str(mac/'TopDF'),'-framework','AppKit','-framework','PDFKit'],check=True)
 for name in ['pages','keynote','numbers']:
- subprocess.run(['osacompile','-o',str(resources/f'{name}.scpt'),str(ROOT/f'scripts/{name}.applescript')],check=True)
+ # Clean build machines may not have Apple's optional office applications/dictionaries.
+ result=subprocess.run(['osacompile','-o',str(resources/f'{name}.scpt'),str(ROOT/f'scripts/{name}.applescript')],capture_output=True)
+ if result.returncode:
+  shutil.copy2(ROOT/f'scripts/{name}.applescript',resources/f'{name}.applescript')
 engines=app/'Contents/Helpers';engines.mkdir()
 subprocess.run(['ditto',str(engine_root/'LibreOffice.app'),str(engines/'LibreOffice.app')],check=True)
 shutil.copy2(engine_root/('hwp/hwp' if ARCH=='arm64' else 'hwp'),engines/'hwp')

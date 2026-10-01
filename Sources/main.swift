@@ -87,7 +87,7 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
   try settings.write(to:profileUser.appendingPathComponent("registrymodifications.xcu"),atomically:true,encoding:.utf8)
   process.arguments = ["-env:UserInstallation=\(tmp.appendingPathComponent("profile").absoluteString)","--headless","--nologo","--nodefault","--nofirststartwizard","--convert-to","pdf","--outdir",destination.path,input.path]
  } else {
-  guard let kind = apple[ext], let script = Bundle.main.url(forResource: kind, withExtension: "scpt") else { throw fail("Apple 문서 변환 스크립트가 없습니다.") }
+  guard let kind = apple[ext], let script = Bundle.main.url(forResource: kind, withExtension: "scpt") ?? Bundle.main.url(forResource: kind, withExtension: "applescript") else { throw fail("Apple 문서 변환 스크립트가 없습니다.") }
   process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript"); process.arguments = [script.path,input.path,output.path]
  }
  // Engine processes cannot make network connections. Apple apps are a separate, optional route.
