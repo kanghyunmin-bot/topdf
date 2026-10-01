@@ -42,22 +42,33 @@ jobs:
             report=$(find artifact -name 'test-report.json')
             cp "$report" windows-verification.json
             sha256sum "$package" | sed 's@  .*/@  @' > windows-SHA256.txt
-            gh release upload v1.0.0-rc.2 "$package" windows-SHA256.txt windows-verification.json --repo '${{ github.repository }}'
+            test "$(gh release view v1.0.0-rc.2 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
+            gh release upload v1.0.0-rc.2 --clobber "$package" windows-SHA256.txt windows-verification.json --repo '${{ github.repository }}'
           else
             package=$(find artifact -name 'TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg')
             report=$(find artifact -name 'test-report.json')
             cp "$report" intel-verification.json
             sha256sum "$package" | sed 's@  .*/@  @' > intel-SHA256.txt
-            gh release upload v1.0.0-rc.2 "$package" intel-SHA256.txt intel-verification.json --repo '${{ github.repository }}'
+            test "$(gh release view v1.0.0-rc.2 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
+            gh release upload v1.0.0-rc.2 --clobber "$package" intel-SHA256.txt intel-verification.json --repo '${{ github.repository }}'
           fi
   android-engine-source:
     runs-on: ubuntu-latest
     steps:
+      - name: Check whether verified source is already present
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          name=$(gh release view v1.0.0-rc.2 --json assets --jq '.assets[] | select(.name == "org.documentfoundation.libreoffice_131_src.tar.gz") | .name' --repo '${{ github.repository }}')
+          if [ -n "$name" ]; then echo "present=true" >> "$GITHUB_OUTPUT"; fi
       - name: Fetch exact original Android engine source
+        if: steps.existing.outputs.present != 'true'
         run: |
           curl -fL --retry 3 'https://f-droid.org/repo/org.documentfoundation.libreoffice_131_src.tar.gz' -o org.documentfoundation.libreoffice_131_src.tar.gz
           echo '0e102144a7cce24e7291e744bef87a573dfb629d595e6a40f0d9fc8a4accb82b  org.documentfoundation.libreoffice_131_src.tar.gz' | sha256sum -c -
       - name: Preserve source alongside APK
+        if: steps.existing.outputs.present != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release upload v1.0.0-rc.2 org.documentfoundation.libreoffice_131_src.tar.gz --repo '${{ github.repository }}'

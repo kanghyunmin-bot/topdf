@@ -29,6 +29,7 @@ static class Engine {
  public static async Task Convert(string input,string output,CancellationToken ct) {
   if(!File.Exists(input)||new FileInfo(input).Length>512L*1024*1024)throw new Exception("512MB 이하의 파일을 선택하세요.");
   var ext=Path.GetExtension(input).ToLowerInvariant();
+  if(new[]{".docx",".docm",".dotx",".pptx",".pptm",".ppsx",".xlsx",".xlsm",".odt",".ods",".odp",".hwpx",".epub"}.Contains(ext)){using var zip=System.IO.Compression.ZipFile.OpenRead(input);long total=0;if(zip.Entries.Count>100000)throw new Exception("압축 문서의 항목 수가 너무 많습니다.");foreach(var entry in zip.Entries){if(entry.Length>1024L*1024*1024||total>1024L*1024*1024-entry.Length)throw new Exception("압축 해제 크기가 1GB를 초과합니다.");total+=entry.Length;}}
   if(ext==".pdf") { using var d=PdfReader.Open(input,PdfDocumentOpenMode.Import);if(d.PageCount<1||d.PageCount>2000)throw new Exception("지원 페이지 범위를 벗어났습니다.");File.Copy(input,output,true);return; }
   if(new[]{".png",".jpg",".jpeg",".bmp",".gif",".tif",".tiff"}.Contains(ext)) {
    using var image=Image.FromFile(input);using var pdf=new PdfDocument();var frames=(ext==".tif"||ext==".tiff")?image.GetFrameCount(FrameDimension.Page):1;

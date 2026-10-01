@@ -29,6 +29,9 @@ final class OfflineEngine {
  static void convert(Context c,File input,File output)throws Exception {
   prepare(c);if(input.length()>512L*1024*1024)throw new IOException("512MB 이하의 파일을 선택하세요.");
   String name=input.getName().toLowerCase(Locale.ROOT),ext=name.substring(name.lastIndexOf('.')+1);
+  if(Arrays.asList("docx","docm","dotx","pptx","pptm","ppsx","xlsx","xlsm","odt","ods","odp","hwpx","epub").contains(ext)){
+   try(java.util.zip.ZipFile zip=new java.util.zip.ZipFile(input)){long total=0;int entries=0;java.util.Enumeration<? extends java.util.zip.ZipEntry> list=zip.entries();while(list.hasMoreElements()){java.util.zip.ZipEntry entry=list.nextElement();long size=entry.getSize();if(size<0||size>1024L*1024*1024||total>1024L*1024*1024-size||++entries>100000)throw new IOException("손상되었거나 압축 해제 크기가 너무 큰 문서입니다.");total+=size;}}
+  }
   if(ext.equals("pdf")){try(PDDocument d=PDDocument.load(input)){check(d);if(!d.getCurrentAccessPermission().canPrint())throw new IOException("인쇄가 허용되지 않은 PDF입니다.");}copy(input,output);return;}
   if(ext.equals("tif")||ext.equals("tiff")){
    File directory=new File(input.getParentFile(),"tiff-"+UUID.randomUUID());String error=NativeHwp.decodeTiff(input.getPath(),directory.getPath());if(error!=null)throw new IOException(error);
