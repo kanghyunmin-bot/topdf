@@ -24,6 +24,9 @@ final class OfflineEngine {
  static void prepare(Context context)throws Exception {
   File marker=new File(context.getFilesDir(),"engine-26.2.6.3-ready");
   if(!marker.exists()){copyAsset(context.getAssets(),"unpack",new File(context.getApplicationInfo().dataDir));marker.createNewFile();}
+  File preferences=new File(context.getApplicationInfo().dataDir,"user/registrymodifications.xcu");preferences.getParentFile().mkdirs();
+  String settings="<?xml version=\"1.0\" encoding=\"UTF-8\"?><oor:items xmlns:oor=\"http://openoffice.org/2001/registry\"><item oor:path=\"/org.openoffice.Office.Common/Security/Scripting\"><prop oor:name=\"MacroSecurityLevel\" oor:op=\"fuse\"><value>3</value></prop></item><item oor:path=\"/org.openoffice.Office.Calc/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item><item oor:path=\"/org.openoffice.Office.Writer/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item></oor:items>";
+  try(OutputStream out=new FileOutputStream(preferences)){out.write(settings.getBytes(StandardCharsets.UTF_8));}
   PDFBoxResourceLoader.init(context);
  }
  static void convert(Context c,File input,File output)throws Exception {
