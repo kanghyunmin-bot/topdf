@@ -25,3 +25,11 @@ __pycache__/
 /scripts/word.applescript
 /scripts/powerpoint.applescript
 /scripts/excel.applescript
+
+# Platform build products and private Android signing material
+/platforms/windows/TopDF/bin/
+/platforms/windows/TopDF/obj/
+/platforms/android/native/target/
+/platforms/android/local.properties
+*.keystore
+*.jks

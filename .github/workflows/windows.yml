@@ -1,0 +1,45 @@
+name: Windows offline build
+on:
+  workflow_dispatch:
+  push:
+    paths: ['platforms/windows/**', 'scripts/build-windows.ps1', 'Assets/AppIcon.ico', '.github/workflows/windows.yml']
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build native Windows app and bundle engines
+        shell: pwsh
+        run: ./scripts/build-windows.ps1
+      - name: Offline engine conversion tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force build/windows/tests | Out-Null
+          foreach ($ext in @('docx','pptx','xlsx','hwp','hwpx')) {
+            $source = (Resolve-Path "tests/sample.$ext").Path
+            $output = "$pwd/build/windows/tests/$ext.pdf"
+            $before = (Get-FileHash $source).Hash
+            $p = Start-Process build/windows/app/TopDF.exe -ArgumentList @('--convert-test',"`"$source`"","`"$output`"") -PassThru -Wait
+            if ($p.ExitCode -ne 0 -or !(Test-Path $output)) { Get-Content "$output.error.txt" -ErrorAction SilentlyContinue; throw "Conversion failed: $ext" }
+            if ((Get-FileHash $source).Hash -ne $before) { throw 'Original changed' }
+          }
+      - name: Package
+        shell: pwsh
+        run: |
+          Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+          Get-FileHash dist/*.zip -Algorithm SHA256 | Format-List | Out-File dist/windows-SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TopDF-windows-x64-unsigned
+          path: |
+            dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+            dist/windows-SHA256.txt
+            build/windows/tests/*.pdf
+          retention-days: 14
