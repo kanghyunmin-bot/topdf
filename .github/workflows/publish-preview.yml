@@ -1,0 +1,62 @@
+name: Publish verified RC2 preview artifacts
+on:
+  workflow_dispatch:
+    inputs:
+      windows_run:
+        description: Successful Windows offline verification run ID
+        required: true
+      intel_run:
+        description: Successful Intel macOS verification run ID
+        required: true
+permissions:
+  contents: write
+  actions: read
+jobs:
+  desktop:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [windows, intel]
+    steps:
+      - name: Verify source run passed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ matrix.platform == 'windows' && inputs.windows_run || inputs.intel_run }}
+        run: |
+          [[ "$RUN_ID" =~ ^[0-9]+$ ]]
+          test "$(gh api repos/${{ github.repository }}/actions/runs/$RUN_ID --jq .conclusion)" = success
+          gh release view v1.0.0-rc.2 --repo '${{ github.repository }}'
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.platform == 'windows' && 'TopDF-windows-x64-unsigned' || 'TopDF-macos-intel-unsigned' }}
+          run-id: ${{ matrix.platform == 'windows' && inputs.windows_run || inputs.intel_run }}
+          github-token: ${{ github.token }}
+          path: artifact
+      - name: Upload preview and verification evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ '${{ matrix.platform }}' = windows ]; then
+            package=$(find artifact -name 'TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip')
+            report=$(find artifact -name 'test-report.json')
+            cp "$report" windows-verification.json
+            sha256sum "$package" | sed 's@  .*/@  @' > windows-SHA256.txt
+            gh release upload v1.0.0-rc.2 "$package" windows-SHA256.txt windows-verification.json --repo '${{ github.repository }}'
+          else
+            package=$(find artifact -name 'TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg')
+            report=$(find artifact -name 'test-report.json')
+            cp "$report" intel-verification.json
+            sha256sum "$package" | sed 's@  .*/@  @' > intel-SHA256.txt
+            gh release upload v1.0.0-rc.2 "$package" intel-SHA256.txt intel-verification.json --repo '${{ github.repository }}'
+          fi
+  android-engine-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch exact original Android engine source
+        run: |
+          curl -fL --retry 3 'https://f-droid.org/repo/org.documentfoundation.libreoffice_131_src.tar.gz' -o org.documentfoundation.libreoffice_131_src.tar.gz
+          echo '0e102144a7cce24e7291e744bef87a573dfb629d595e6a40f0d9fc8a4accb82b  org.documentfoundation.libreoffice_131_src.tar.gz' | sha256sum -c -
+      - name: Preserve source alongside APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload v1.0.0-rc.2 org.documentfoundation.libreoffice_131_src.tar.gz --repo '${{ github.repository }}'

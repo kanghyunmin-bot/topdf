@@ -1,24 +1,29 @@
-# TopDF — Finder에서 PDF로 변환
+# TopDF — 오프라인 PDF 변환
 
-macOS Finder에서 파일을 우클릭해 `PDF화…`를 선택하고, 미리보기에서 페이지 범위와 용지 방향을 정한 뒤 PDF를 저장하는 앱입니다.
+macOS·Windows·Android에서 문서를 기기 안에서 PDF로 변환합니다. Word·Excel·PowerPoint·HWP/HWPX 엔진을 포함하며 외부 변환 API, 계정, API 키가 필요하지 않습니다. 미리보기에서 페이지 범위와 용지 방향을 정한 뒤 PDF를 저장합니다. macOS Finder 우클릭 메뉴와 Windows 탐색기 우클릭 메뉴, Android 파일 앱의 공유 메뉴를 지원합니다.
 
 <img src="Assets/AppIcon.png" alt="TopDF 앱 아이콘" width="160">
 
-[다운로드](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.1) · [버그 제보 / 문의](https://github.com/kanghyunmin-bot/topdf/issues) · [MIT 라이선스](LICENSE)
+[다운로드](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.2) · [버그 제보 / 문의](https://github.com/kanghyunmin-bot/topdf/issues) · [MIT 라이선스](LICENSE)
 
 ## 현재 상태
 
-1.0.0-rc.1 공개 사전 릴리스이며 개발·검증용입니다. Apple Silicon을 대상으로 빌드하며 macOS 13을 최소 배포 대상으로 설정했습니다. 실제 검증은 개발 Mac의 macOS 26.5.2에서 수행했습니다. Developer ID 서명·Apple 공증·별도 Mac 설치 테스트는 아직 완료되지 않았습니다.
+1.0.0-rc.2는 플랫폼 확대 사전 릴리스입니다. 모든 지원 변환은 오프라인에서 실행됩니다. 복잡한 수식·차트·레이아웃과 글꼴 차이는 검토가 필요하며, 임의의 모든 파일 형식과 완전한 원본 재현을 보장하지 않습니다.
 
-- DOCX·PPTX·XLSX 등은 내장 LibreOffice를 사용합니다.
-- HWP·HWPX는 hwp-cli를 사용합니다. 복잡한 수식·차트·OLE·서식에는 제한이 있습니다.
-- 이미지와 PDF는 macOS 프레임워크로 처리합니다.
-- Pages·Keynote·Numbers 형식은 해당 Apple 앱이 설치되어 있어야 하며 이 경로의 실제 변환은 아직 검증하지 않았습니다.
-- 원본 옆 저장 또는 저장 위치 지정, 페이지 선택, 원본 방향/A4 세로/A4 가로, macOS 인쇄창을 제공합니다.
+| 플랫폼 | 설치 파일 | 확인한 범위 |
+| --- | --- | --- |
+| Apple Silicon Mac, macOS 13+ | ARM64 DMG | 개발 Mac 변환·저장 26개 검사, 이전 RC의 Finder·저장·인쇄창 UI 검사 |
+| Intel Mac, macOS 13+ | Intel DMG | 실제 Intel macOS 15 CI에서 변환·저장 26개 검사 |
+| Windows x64, Windows 10 2004+/11 | ZIP 압축 해제 후 TopDF.exe | 실제 Windows CI에서 외부 통신 차단 후 Office·한글 변환, 한글 내용·페이지·범위·방향·텍스트 검사 |
+| Android 8+, ARM64/x86_64 | APK | ARM64 Android 15 에뮬레이터의 Wi-Fi/모바일 데이터 비활성 상태에서 11개 문서·TIFF·범위·방향 검사; INTERNET 권한 없음 |
+
+macOS Developer ID 서명·Apple 공증, Windows 배포자 인증서, 독립된 실제 기기와 최소 지원 OS의 설치·인쇄 검증은 남아 있습니다. Android x86_64 엔진은 컴파일 검증을 했으며 실제 실행 검증은 ARM64를 대상으로 했습니다. Android APK는 유지 가능한 사전 릴리스 키로 서명했습니다. 정식 앱 스토어 배포 버전이 아닙니다.
+
+Android 사용법·엔진·소스 빌드는 [Android 안내](platforms/android/README.md)를 확인하세요. Windows 앱의 `우클릭 메뉴 추가` 버튼은 현재 사용자에게 메뉴를 등록하며, Windows 11에서는 `더 많은 옵션 표시` 안에 보일 수 있습니다. 앱 폴더를 옮겼다면 다시 등록합니다.
 
 ## 다운로드와 설치
 
-[Releases](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.1)에서 `TopDF-1.0.0-rc.1-arm64-UNSIGNED.dmg`를 다운로드합니다. **이 버전은 Developer ID 서명·Apple 공증 전 사전 릴리스입니다. macOS가 실행을 차단할 수 있으며, 설치·실행이 검증된 정식 버전은 아닙니다.**
+[Releases](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.1)에서 `TopDF-1.0.0-rc.2-macos-arm64-UNSIGNED.dmg`를 다운로드합니다. **이 버전은 Developer ID 서명·Apple 공증 전 사전 릴리스입니다. macOS가 실행을 차단할 수 있으며, 설치·실행이 검증된 정식 버전은 아닙니다.**
 
 1. DMG를 열어 `PDF로 변환.app`을 응용 프로그램 폴더로 복사합니다.
 2. 앱을 한 번 실행해 Finder 메뉴를 등록합니다.
@@ -28,9 +33,9 @@ macOS Finder에서 파일을 우클릭해 `PDF화…`를 선택하고, 미리보
 
 | 릴리스 파일 | 용도 |
 | --- | --- |
-| `TopDF-1.0.0-rc.1-arm64-UNSIGNED.dmg` | Apple Silicon 앱 설치용, 서명·공증 전 RC |
+| `TopDF-1.0.0-rc.2-macos-arm64-UNSIGNED.dmg` | Apple Silicon 앱 설치용, 서명·공증 전 RC |
 | `TopDF-1.0.0-rc.1-sources.zip` | 내장 엔진과 의존성의 대응 소스·라이선스, 일반 사용 시 압축 해제 불필요 |
-| `SHA256SUMS.txt` | DMG와 엔진 소스 번들 무결성 확인 |
+| `*-SHA256.txt` | 각 플랫폼 설치 파일의 무결성 확인 |
 | `verification-report.json`, `dmg-verification.json` | 현재 Mac 검사 결과와 검증 범위 |
 | GitHub 자동 생성 `Source code` | TopDF 자체 소스, 내장 엔진 소스 번들과 별개 |
 
@@ -68,7 +73,7 @@ python3 tests/validate_network.py
 
 TopDF 자체 코드·스크립트·문서는 [MIT License](LICENSE)로 공개합니다. `legal/`의 제3자 라이선스·고지와 내장 엔진·외부 의존성은 각 권리자의 기존 라이선스를 따릅니다. TopDF의 MIT 허가는 제3자 구성요소를 MIT로 재라이선스하지 않습니다.
 
-내장 엔진과 제3자 구성요소의 라이선스는 `legal/`에 별도로 보존합니다. LibreOffice의 MPL-2.0 및 각 의존성 라이선스 조건을 따라 대응 소스와 고지를 제공해야 합니다. `scripts/package-release.py`는 로컬에 준비한 엔진 소스 자료로 별도 소스 ZIP을 만듭니다. 해당 자료는 Git에서 제외하며, 실제 바이너리 배포 시 함께 제공해야 합니다.
+내장 엔진과 제3자 구성요소의 라이선스는 `legal/`에 별도로 보존합니다. LibreOffice의 MPL-2.0 및 각 의존성 라이선스 조건을 따라 대응 소스와 고지를 제공해야 합니다. RC2의 데스크톱 엔진 버전은 RC1과 같으며 RC1 대응 소스 번들을 계속 제공합니다. Android는 별도의 JNI·의존성 소스 ZIP과 원본 LibreOffice Android 소스 아카이브를 함께 제공합니다. `scripts/package-release.py`는 로컬에 준비한 엔진 소스 자료로 별도 소스 ZIP을 만듭니다. 해당 자료는 Git에서 제외하며, 실제 바이너리 배포 시 함께 제공해야 합니다.
 
 운영·유지보수: [kanghyunmin-bot](https://github.com/kanghyunmin-bot). 문의·오류 제보는 [GitHub Issues](https://github.com/kanghyunmin-bot/topdf/issues)에서 받습니다. 파일의 경로·내용은 로컬 변환에 사용하며 외부 변환 API·사용 분석·자체 오류 전송 기능이 없습니다. 자세한 내용은 [개인정보 안내](docs/개인정보%20안내.html)를 확인하세요. 인증서 개인 키, 비밀번호, API 토큰은 저장소에 넣지 않습니다.
 
