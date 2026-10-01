@@ -22,6 +22,15 @@ Copy-Item (Split-Path (Split-Path $program.FullName -Parent) -Parent) "$out/Engi
 Expand-Archive downloads/hwp-v1.3.1-x86_64-pc-windows-msvc.zip build/windows/hwp -Force
 $hwp = Get-ChildItem build/windows/hwp -Filter hwp.exe -Recurse | Select-Object -First 1
 Copy-Item $hwp.FullName "$out/Engines/hwp.exe"
+# MSI administrative extraction keeps VC runtime DLLs in System64 instead of installing them.
+# Preserve the vendor's exact DLL bytes beside each native executable for clean offline PCs.
+$crt = Join-Path $out 'Engines/LibreOffice/System64'
+if (!(Test-Path $crt)) { throw 'Vendor x64 C runtime payload missing' }
+Get-ChildItem $crt -Filter '*.dll' -File | ForEach-Object {
+ Copy-Item $_.FullName "$out/Engines/LibreOffice/program" -Force
+ Copy-Item $_.FullName "$out/Engines" -Force
+}
+
 Copy-Item Assets/AppIcon.ico,LICENSE $out
 Copy-Item legal "$out/Licenses" -Recurse -Force
 Copy-Item docs "$out/Help" -Recurse -Force
