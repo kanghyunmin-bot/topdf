@@ -27,6 +27,7 @@ python scripts/prepare-fonts.py
 python scripts/build-hwp-gothic.py --target x86_64-pc-windows-msvc
 if ($LASTEXITCODE -ne 0) { throw 'Modified HWP engine build failed' }
 Copy-Item build/hwp-gothic-src/target/x86_64-pc-windows-msvc/release/hwp.exe "$out/Engines/hwp.exe"
+New-Item -ItemType Directory -Force "$out/Engines/LibreOffice/share/fonts/truetype" | Out-Null
 Copy-Item Engines/FallbackFonts/*.ttf "$out/Engines/LibreOffice/share/fonts/truetype" -Force
 # Keep conversion filters, every vendor font, dictionaries and hyphenation.
 $lo = "$out/Engines/LibreOffice"
