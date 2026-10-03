@@ -1,0 +1,2077 @@
+{
+  "arm64": {
+    "native_binary_count": 144,
+    "architecture_or_minimum_os_mismatches": [],
+    "external_non_system_dependencies": [],
+    "cpu_subtypes": [
+      0
+    ],
+    "minimum_os_values": [
+      "11.0.0",
+      "13.0.0"
+    ],
+    "details": [
+      {
+        "file": "Contents/MacOS/TopDF",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "13.0.0"
+      },
+      {
+        "file": "Contents/Helpers/hwp",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/regview",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/soffice",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/unopkg",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/uri-encode",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/uno",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/opencltest",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/gengal",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/xpdfimport",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/PlugIns/QuickLookPreview.appex/Contents/MacOS/QuickLookPreview",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/PlugIns/QuickLookThumbnail.appex/Contents/MacOS/QuickLookThumbnail",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Library/Spotlight/OOoSpotlightImporter.mdimporter/Contents/MacOS/OOoSpotlightImporter",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsclo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libdbplo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libOsi.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwpg-0.3.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libskialo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libiolo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjuh.jnilib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswuilo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libetonyek-0.1.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblog_uno_uno.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libinvocadaptlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscfiltlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicui18n.dylib.78",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libfreebl3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librdf-lo.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_cppuhelpergcc3.dylib.3",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnamingservicelo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpcrlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsal_textenclo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libdeploymentgui.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwps-0.4.4.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libhsqldb.jnilib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libproxyfaclo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsduilo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpdfimportlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcalclo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmwaw-0.3.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicuuc.dylib.78",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunopkgapp.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librasqal-lo.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmacbe1lo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liborcus-0.21.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_es.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsoftokn3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgcc3_uno.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmigrationoo2lo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libplds4.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libreflectionlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunsafe_uno_uno.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunoidllo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libOsiClp.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libEngine12.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblcms2.2.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libupdatecheckuilo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libi18nlangtag.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libAppleRemotelo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicudata.dylib.78",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscuilo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_en.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCoinUtils.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCoinMP.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_sal.dylib.3",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmacabdrv1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvbaswobjlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libldapbe2lo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmdlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libPresentationMinimizerlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstocserviceslo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssdbm3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_cppu.dylib.3",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libassuan.9.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libxmlreaderlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmigrationoo3lo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpgme.11.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libClpSolver.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmime3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCgl.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstaroffice-0.0.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libodfgen-0.1.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libfbclient.dylib.3.0.7",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libClp.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmergedlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_salhelpergcc3.dylib.3",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjavaloaderlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCbcSolver.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libbinaryurplo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpdfiumlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwriterlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblangtag.1.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjuhx.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswdlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libinvocationlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsdlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpgmepp.6.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libplc4.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpg-error.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjdbclo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblpsolve55.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvbaobjlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpostgresql-sdbc-impllo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libbootstraplo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libclucene.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstorelo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libraptor2-lo.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcmdmaillo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libssl3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_others.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscdlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcurl.4.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libupdchklo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libclewlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libintrospectionlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjvmfwklo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libreglo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_euro.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libaffine_uno_uno.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librevenge-0.0.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssckbi.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwpd-0.10.10.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuuresolverlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmswordlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvclplug_osxlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsddlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libLanguageToollo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsw_writerfilterlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjava_uno.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libabplo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjavavmlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjvmaccesslo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnspr4.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libepoxy.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjpipe.jnilib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liborcus-parser-0.21.0.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssutil3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnss3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCbc.3.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_purpenvhelpergcc3.dylib.3",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscnlo.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/intl/libfbintl.dylib",
+        "cpu": "0x100000c",
+        "subtype": 0,
+        "minimum_macos": "11.0.0"
+      }
+    ]
+  },
+  "intel": {
+    "native_binary_count": 144,
+    "architecture_or_minimum_os_mismatches": [],
+    "external_non_system_dependencies": [],
+    "cpu_subtypes": [
+      3
+    ],
+    "minimum_os_values": [
+      "10.12.0",
+      "11.0.0",
+      "13.0.0"
+    ],
+    "details": [
+      {
+        "file": "Contents/MacOS/TopDF",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "13.0.0"
+      },
+      {
+        "file": "Contents/Helpers/hwp",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "10.12.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/regview",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/soffice",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/unopkg",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/uri-encode",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/uno",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/opencltest",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/gengal",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/MacOS/xpdfimport",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/PlugIns/QuickLookPreview.appex/Contents/MacOS/QuickLookPreview",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/PlugIns/QuickLookThumbnail.appex/Contents/MacOS/QuickLookThumbnail",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Library/Spotlight/OOoSpotlightImporter.mdimporter/Contents/MacOS/OOoSpotlightImporter",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsclo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libdbplo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libOsi.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwpg-0.3.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libskialo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libiolo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjuh.jnilib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswuilo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libetonyek-0.1.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblog_uno_uno.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libinvocadaptlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscfiltlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicui18n.dylib.78",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libfreebl3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librdf-lo.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_cppuhelpergcc3.dylib.3",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnamingservicelo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpcrlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsal_textenclo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libdeploymentgui.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwps-0.4.4.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libhsqldb.jnilib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libproxyfaclo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsduilo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpdfimportlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcalclo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmwaw-0.3.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicuuc.dylib.78",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunopkgapp.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librasqal-lo.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmacbe1lo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liborcus-0.21.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_es.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsoftokn3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgcc3_uno.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmigrationoo2lo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libplds4.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libreflectionlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunsafe_uno_uno.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libunoidllo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libOsiClp.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libEngine12.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblcms2.2.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libupdatecheckuilo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libi18nlangtag.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libAppleRemotelo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libicudata.dylib.78",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscuilo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_en.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCoinUtils.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCoinMP.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_sal.dylib.3",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmacabdrv1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvbaswobjlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libldapbe2lo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmdlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libPresentationMinimizerlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstocserviceslo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssdbm3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_cppu.dylib.3",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libassuan.9.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libxmlreaderlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmigrationoo3lo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpgme.11.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libClpSolver.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmime3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCgl.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstaroffice-0.0.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libodfgen-0.1.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libfbclient.dylib.3.0.7",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libClp.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsmlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmergedlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_salhelpergcc3.dylib.3",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjavaloaderlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCbcSolver.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libbinaryurplo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpdfiumlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwriterlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblangtag.1.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjuhx.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libswdlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libinvocationlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsdlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpgmepp.6.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libplc4.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libgpg-error.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjdbclo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblpsolve55.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvbaobjlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libpostgresql-sdbc-impllo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libbootstraplo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libclucene.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libstorelo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libraptor2-lo.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcmdmaillo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libssl3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_others.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscdlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libcurl.4.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libupdchklo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libclewlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libintrospectionlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjvmfwklo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libreglo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liblocaledata_euro.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libaffine_uno_uno.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/librevenge-0.0.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssckbi.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libwpd-0.10.10.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuuresolverlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libmswordlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libvclplug_osxlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsddlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libLanguageToollo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libsw_writerfilterlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjava_uno.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libabplo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjavavmlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjvmaccesslo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnspr4.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libepoxy.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libjpipe.jnilib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/liborcus-parser-0.21.0.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnssutil3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libnss3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libCbc.3.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libuno_purpenvhelpergcc3.dylib.3",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/libscnlo.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      },
+      {
+        "file": "Contents/Helpers/LibreOffice.app/Contents/Frameworks/intl/libfbintl.dylib",
+        "cpu": "0x1000007",
+        "subtype": 3,
+        "minimum_macos": "11.0.0"
+      }
+    ]
+  },
+  "android": [
+    {
+      "apk": "dist/TopDF-1.0.0-rc.2-android-offline-preview.apk",
+      "bytes": 175460374,
+      "native_libraries": [
+        {
+          "file": "lib/arm64-v8a/libsmime3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libnssdbm3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libnssutil3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libsoftokn3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libssl3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libplc4.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libnss3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libfreebl3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libc++_shared.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libplds4.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libnssckbi.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libnspr4.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libsqlite3.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/libtopdf_hwp.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/arm64-v8a/liblo-native-code.so",
+          "machine": 183,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libsmime3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libnssdbm3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libnssutil3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libsoftokn3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libssl3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libplc4.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libnss3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libfreebl3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libc++_shared.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libplds4.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libnssckbi.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libnspr4.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libsqlite3.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/libtopdf_hwp.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        },
+        {
+          "file": "lib/x86_64/liblo-native-code.so",
+          "machine": 62,
+          "load_segment_alignments": [
+            16384,
+            16384,
+            16384
+          ]
+        }
+      ],
+      "nanum_assets": []
+    }
+  ],
+  "windows": {
+    "source": "platforms/windows/TopDF/Program.cs",
+    "target": "win-x64 / Windows 10 2004+ / .NET 8 self-contained",
+    "previous_ci": {
+      "url": "https://github.com/kanghyunmin-bot/topdf/actions/runs/36892730840",
+      "commit": "aa663a4c424f188d465aaefc2e218506c041905e",
+      "passed_checks": 9
+    },
+    "rc4_font_fallback_implemented": false,
+    "installed_500mb_gate": false,
+    "runtime_network_block": "not enforced by product code; previous CI installs firewall rules",
+    "native_windows_in_this_audit": false
+  },
+  "android_findings": {
+    "target": "API 26+, arm64-v8a and x86_64; no armeabi-v7a",
+    "rc4_font_fallback_implemented": false,
+    "hwp_render_dependency": "build/upstream/hwp-cli-1.3.1, not Gothic-modified build/hwp-gothic-src",
+    "installed_500mb_gate": false,
+    "temporary_filename_collision": {
+      "trigger": "choose an input named converted.pdf",
+      "location": "platforms/android/src/local/topdf/MainActivity.java:43 and OfflineEngine.java:38,73",
+      "effect": "loadingOriginal and loadingConverted use the same path; FileOutputStream truncates the temporary input during self-copy, producing invalid PDF",
+      "original_document_changed": false
+    },
+    "physical_device_test": false
+  },
+  "ios": {
+    "implemented": false,
+    "evidence": "No iOS target/project/source; macOS source uses AppKit and external Process engines"
+  },
+  "macos_gatekeeper": {
+    "intel_assessment": "rejected",
+    "signature": "adhoc",
+    "developer_id": false,
+    "notarized": false,
+    "physical_intel_test": false,
+    "damaged_warning_exact_cause": "not determined on affected Intel Mac"
+  },
+  "scope": "Read-only code and packaged native-header review; no new VM/emulator execution, no application source changes. Existing prior test evidence is separate."
+}

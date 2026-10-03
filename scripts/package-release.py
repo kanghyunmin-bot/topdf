@@ -1,6 +1,6 @@
-import hashlib,json,pathlib,shutil,subprocess,sys,zipfile
+import hashlib,json,os,pathlib,shutil,subprocess,sys,zipfile
 ROOT=pathlib.Path(__file__).resolve().parent.parent
-VERSION='1.0.0-rc.1'
+VERSION=os.environ.get('TOPDF_VERSION','1.0.0-rc.4')
 APP=ROOT/'build/release/PDF로 변환.app'
 def digest(path):
  h=hashlib.sha256()
@@ -39,10 +39,10 @@ manifest=[{'path':name,'bytes':path.stat().st_size,'sha256':digest(path)} for pa
 with zipfile.ZipFile(sourcezip,'w',compression=zipfile.ZIP_STORED,allowZip64=True) as z:
  for path,name in files:z.write(path,name)
  z.writestr('SOURCE-MANIFEST.json',json.dumps(manifest,indent=2))
- z.writestr('README.txt','Corresponding engine sources and dependency archives for TopDF '+VERSION+'.\nLibreOffice official unmodified binaries: 26.2.6.3. Source tarballs include core, dictionaries, help and translations, plus all 149 download.lst external archives.\nHWP CLI: v1.3.1 plus all 276 Cargo.lock registry archives (including inactive platform/build dependencies).\nAll archive hashes were checked against upstream metadata. This bundle preserves each upstream archive and its license files.\nDistribute this source bundle with the app. Keep public source links available.\nTopDF application source is MIT-licensed at https://github.com/kanghyunmin-bot/topdf/tree/v1.0.0-rc.1. Its MIT license does not replace third-party engine licenses.\n')
+ z.writestr('README.txt','Corresponding engine sources and dependency archives for TopDF '+VERSION+'.\nLibreOffice 26.2.6.3 native code with a trimmed headless application bundle. Removed files are documented by scripts/slim-libreoffice.py and engine-size-report.json; upstream source archives are unchanged. Source tarballs include core, dictionaries, help and translations, plus all 149 download.lst external archives.\nHWP CLI: v1.3.1 plus all 276 Cargo.lock registry archives (including inactive platform/build dependencies).\nAll archive hashes were checked against upstream metadata. This bundle preserves each upstream archive and its license files.\nDistribute this source bundle with the app. Keep public source links available.\nTopDF application source is MIT-licensed at https://github.com/kanghyunmin-bot/topdf/tree/v1.0.0-rc.1. Its MIT license does not replace third-party engine licenses.\n')
 with zipfile.ZipFile(sourcezip) as z:assert z.testzip() is None
 artifacts=[]
 for path in [dmg,sourcezip]:artifacts.append({'file':path.name,'sha256':digest(path),'bytes':path.stat().st_size})
 (OUT/'SHA256SUMS.txt').write_text(''.join(r['sha256']+'  '+r['file']+'\n' for r in artifacts))
-(OUT/'release-manifest.json').write_text(json.dumps({'version':VERSION,'status':'unsigned_release_candidate','architecture':'arm64','minimum_macos':'13.0','artifacts':artifacts,'publish_blockers':['Developer ID signing and Apple notarization','independent clean Mac installation test'],'engines':{'libreoffice':'26.2.6.3 official unmodified','hwp':'1.3.1 upstream binary, signature only changed'}},ensure_ascii=False,indent=2))
+(OUT/'release-manifest.json').write_text(json.dumps({'version':VERSION,'status':'unsigned_release_candidate','architecture':'arm64','minimum_macos':'13.0','artifacts':artifacts,'publish_blockers':['Developer ID signing and Apple notarization','independent clean Mac installation test'],'engines':{'libreoffice':'26.2.6.3 headless trimmed, unchanged executable code and public symbols','hwp':'1.3.1 upstream binary, signature only changed'}},ensure_ascii=False,indent=2))
 print('Packaged:',*[p.name for p in [dmg,sourcezip]],sep='\n')

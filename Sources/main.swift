@@ -3,6 +3,124 @@ import PDFKit
 import UniformTypeIdentifiers
 import ImageIO
 import Darwin
+import CoreText
+
+func gothicFallback() -> String { "나눔고딕" }
+final class DocumentFontNames: NSObject, XMLParserDelegate {
+ var names = Set<String>(), embedded = Set<String>(), currentFont: String?, embeddedSlideFont = false
+ func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attrs: [String:String]) {
+  let local = elementName.split(separator: ":").last.map(String.init) ?? elementName
+  if local == "embeddedFont" { embeddedSlideFont = true }
+  if embeddedSlideFont, local == "font", let name = attrs["typeface"] { embedded.insert(name) }
+  if local == "font", let name = attrs["w:name"] { currentFont = name; names.insert(name) }
+  if local.hasPrefix("embed"), let name = currentFont { embedded.insert(name) }
+  for key in (local == "rFonts" ? ["w:ascii", "w:hAnsi", "w:eastAsia", "w:cs"] : ["typeface", "svg:font-family"]) {
+   if let name = attrs[key], !name.isEmpty, !name.hasPrefix("+") { names.insert(name.trimmingCharacters(in: CharacterSet(charactersIn: "'\""))) }
+  }
+  if local == "name", let name = attrs["val"] { names.insert(name) }
+ }
+ func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+  if elementName == "w:font" { currentFont = nil }
+  if elementName.split(separator: ":").last == "embeddedFont" { embeddedSlideFont = false }
+ }
+}
+func fontNameAliases(_ font: CTFont) -> [String] {
+ guard let table = CTFontCopyTable(font, CTFontTableTag(kCTFontTableName), []) as Data?, table.count >= 6 else { return [] }
+ func u16(_ offset: Int) -> Int { Int(table[offset]) * 256 + Int(table[offset+1]) }
+ let count = u16(2), start = u16(4)
+ guard count <= 10000, 6 + count * 12 <= table.count else { return [] }
+ var names = [String]()
+ for index in 0..<count {
+  let record = 6 + index * 12, platform = u16(record), id = u16(record+6)
+  guard [0,3].contains(platform), [1,4,6,16].contains(id) else { continue }
+  let length = u16(record+8), offset = start + u16(record+10)
+  guard offset + length <= table.count else { continue }
+  if let name = String(data:table.subdata(in:offset..<offset+length),encoding:.utf16BigEndian) { names.append(name) }
+ }
+ return names
+}
+func missingDocumentFonts(_ source: URL, helpers: URL) throws -> [String] {
+ guard ["docx","docm","dotx","pptx","pptm","ppsx","xlsx","xlsm","odt","ott","ods","odp","odg"].contains(source.pathExtension.lowercased()) else { return [] }
+ func unzip(_ args: [String]) throws -> Data {
+  let p = Process(); p.executableURL = URL(fileURLWithPath:"/usr/bin/unzip"); p.arguments = args
+  let pipe = Pipe(); p.standardOutput = pipe; p.standardError = FileHandle.nullDevice
+  try p.run(); let data = pipe.fileHandleForReading.readDataToEndOfFile(); p.waitUntilExit()
+  guard p.terminationStatus == 0, data.count <= 32 * 1024 * 1024 else { throw fail("글꼴 정보를 읽을 수 없거나 XML 크기가 지원 범위를 초과합니다.") }
+  return data
+ }
+ let entries = String(data:try unzip(["-Z","-1",source.path]),encoding:.utf8)?.split(separator:"\n").map(String.init) ?? []
+ let selected = entries.filter { name in
+  name.hasSuffix(".xml") && (name.hasPrefix("word/") || name.hasPrefix("ppt/") || name == "xl/styles.xml" || name.hasPrefix("xl/theme/") || name == "styles.xml" || name == "content.xml")
+ }
+ guard selected.count <= 2000 else { throw fail("문서의 XML 파일 수가 지원 범위를 초과합니다.") }
+ let fonts = DocumentFontNames()
+ for entry in selected {
+  let parser = XMLParser(data:try unzip(["-p",source.path,entry])); parser.shouldResolveExternalEntities = false; parser.delegate = fonts
+  guard parser.parse() else { throw fail("문서의 글꼴 XML 정보가 손상되었습니다.") }
+ }
+ var available = Set((CTFontManagerCopyAvailableFontFamilyNames() as! [String]).map { $0.lowercased() })
+ available.formUnion((CTFontManagerCopyAvailablePostScriptNames() as! [String]).map { $0.lowercased() })
+ for family in CTFontManagerCopyAvailableFontFamilyNames() as! [String] {
+  let font = CTFontCreateWithName(family as CFString,12,nil)
+  available.formUnion(fontNameAliases(font).map { $0.lowercased() })
+ }
+ let directory = helpers.appendingPathComponent("LibreOffice.app/Contents/Resources/fonts")
+ if let files = FileManager.default.enumerator(at:directory,includingPropertiesForKeys:nil) {
+  for case let url as URL in files where ["ttf","otf","ttc"].contains(url.pathExtension.lowercased()) {
+   if let descriptors = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL) as? [CTFontDescriptor] {
+    for descriptor in descriptors {
+     available.formUnion(fontNameAliases(CTFontCreateWithFontDescriptor(descriptor,12,nil)).map { $0.lowercased() })
+     for key in [kCTFontFamilyNameAttribute,kCTFontNameAttribute,kCTFontDisplayNameAttribute] {
+      if let name = CTFontDescriptorCopyAttribute(descriptor,key) as? String { available.insert(name.lowercased()) }
+     }
+    }
+   }
+  }
+ }
+ available.formUnion(fonts.embedded.map { $0.lowercased() })
+ let generic = Set(["serif","sans-serif","monospace","system-ui"])
+ return fonts.names.filter { !available.contains($0.lowercased()) && !generic.contains($0.lowercased()) }.sorted()
+}
+func applyGothicFallback(_ source: URL, helpers: URL, work: URL) throws -> [String] {
+ let missing = try missingDocumentFonts(source,helpers:helpers)
+ guard !missing.isEmpty else { return [] }
+ func escaped(_ s:String) -> String { s.replacingOccurrences(of:"&",with:"&amp;").replacingOccurrences(of:"<",with:"&lt;").replacingOccurrences(of:"\"",with:"&quot;").replacingOccurrences(of:"'",with:"&apos;") }
+ let keys = Set(missing.map(escaped))
+ let listing = Process(); listing.executableURL = URL(fileURLWithPath:"/usr/bin/unzip"); listing.arguments = ["-Z","-1",source.path]
+ let output = Pipe(); listing.standardOutput = output; listing.standardError = FileHandle.nullDevice
+ try listing.run(); let list = output.fileHandleForReading.readDataToEndOfFile(); listing.waitUntilExit()
+ guard listing.terminationStatus == 0 else { throw fail("문서 글꼴 목록을 읽지 못했습니다.") }
+ let entries = String(data:list,encoding:.utf8)?.split(separator:"\n").map(String.init) ?? []
+ let edits = work.appendingPathComponent("font-edits",isDirectory:true)
+ try FileManager.default.createDirectory(at:edits,withIntermediateDirectories:true)
+ let pattern = #"(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\s*=\s*(["'])(.*?)\2"#
+ let regex = try NSRegularExpression(pattern:pattern)
+ let fontTags = try NSRegularExpression(pattern:#"<(?:[A-Za-z_][\w.-]*:)?(?:rFonts|latin|ea|cs|font|name|font-face)\b[^>]*>"#)
+ for entry in entries where entry.hasSuffix(".xml") && (entry.hasPrefix("word/") || entry.hasPrefix("ppt/") || entry == "xl/styles.xml" || entry.hasPrefix("xl/theme/") || entry == "styles.xml" || entry == "content.xml") {
+  guard !entry.split(separator:"/").contains("..") else { throw fail("문서 내부 경로가 올바르지 않습니다.") }
+  let read = Process(); read.executableURL = URL(fileURLWithPath:"/usr/bin/unzip"); read.arguments = ["-p",source.path,entry]
+  let pipe = Pipe(); read.standardOutput = pipe; read.standardError = FileHandle.nullDevice
+  try read.run(); let data = pipe.fileHandleForReading.readDataToEndOfFile(); read.waitUntilExit()
+  guard read.terminationStatus == 0, let xml = String(data:data,encoding:.utf8) else { throw fail("문서의 글꼴 XML을 읽지 못했습니다.") }
+  let mutable = NSMutableString(string:xml)
+  var changed = false
+  let matches = fontTags.matches(in:xml,range:NSRange(xml.startIndex...,in:xml)).flatMap { regex.matches(in:xml,range:$0.range) }
+  for match in matches.reversed() {
+   let value = (xml as NSString).substring(with:match.range(at:3))
+   if keys.contains(value) { mutable.replaceCharacters(in:match.range(at:3),with:escaped(gothicFallback())); changed = true }
+  }
+  if changed {
+   let target = edits.appendingPathComponent(entry)
+   try FileManager.default.createDirectory(at:target.deletingLastPathComponent(),withIntermediateDirectories:true)
+   try (mutable as String).write(to:target,atomically:true,encoding:.utf8)
+   let zip = Process(); zip.executableURL = URL(fileURLWithPath:"/usr/bin/zip"); zip.currentDirectoryURL = edits; zip.arguments = ["-q",source.path,entry]
+   zip.standardOutput = FileHandle.nullDevice; zip.standardError = FileHandle.nullDevice
+   try zip.run(); zip.waitUntilExit()
+   guard zip.terminationStatus == 0 else { throw fail("문서의 대체 글꼴을 적용하지 못했습니다.") }
+  }
+ }
+ return missing
+}
 
 struct ConvertError: LocalizedError {
  let message: String
@@ -73,9 +191,14 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
  let process = Process()
  guard Bundle.main.resourceURL != nil else { throw fail("변환 엔진을 찾지 못했습니다.") }
  let helpers = Bundle.main.bundleURL.appendingPathComponent("Contents/Helpers")
+ // Session registration lets the separate macOS renderer use bundled fonts.
+ for name in ["NanumGothic-Regular.ttf", "NanumGothic-Bold.ttf"] {
+  let font = helpers.appendingPathComponent("LibreOffice.app/Contents/Resources/fonts/truetype/" + name)
+  CTFontManagerRegisterFontsForURL(font as CFURL, .session, nil)
+ }
  if ["hwp","hwpx"].contains(ext) {
   process.executableURL = helpers.appendingPathComponent("hwp")
-  process.arguments = ["render",input.path,"--output",output.path,"--format","pdf","--font-dir","/System/Library/Fonts","--font-dir","/Library/Fonts","--font-dir",FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Fonts").path]
+  process.arguments = ["render",input.path,"--output",output.path,"--format","pdf","--font-dir",helpers.appendingPathComponent("LibreOffice.app/Contents/Resources/fonts/truetype").path,"--font-dir","/System/Library/Fonts","--font-dir","/Library/Fonts","--font-dir",FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Fonts").path]
  } else if office.contains(ext) {
   process.executableURL = helpers.appendingPathComponent("LibreOffice.app/Contents/MacOS/soffice")
   let destination = tmp.appendingPathComponent("output", isDirectory: true)
@@ -83,6 +206,8 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
   output = destination.appendingPathComponent(input.deletingPathExtension().lastPathComponent).appendingPathExtension("pdf")
   let profileUser = tmp.appendingPathComponent("profile/user",isDirectory:true)
   try FileManager.default.createDirectory(at:profileUser,withIntermediateDirectories:true)
+  let missingFonts = try applyGothicFallback(input,helpers:helpers,work:tmp)
+  if !missingFonts.isEmpty { fputs("글꼴 대체 → \(gothicFallback()): \(missingFonts.joined(separator: ", "))\n",stderr) }
   let settings = """
   <?xml version="1.0" encoding="UTF-8"?>
   <oor:items xmlns:oor="http://openoffice.org/2001/registry">
@@ -105,7 +230,7 @@ func convert(_ source: URL, job: ConversionJob = ConversionJob()) throws -> PDFD
   guard let engine = process.executableURL else { throw fail("변환 엔진이 없습니다.") }
   let engineDirectory = helpers.path.replacingOccurrences(of:"\\",with:"\\\\").replacingOccurrences(of:"\"",with:"\\\"")
   let policy = "(version 1) (allow default) (deny network-outbound (remote ip \"*:*\")) (deny network-inbound (local ip \"*:*\")) (deny file-write* (subpath \"" + engineDirectory + "\"))"
-  var environment = ProcessInfo.processInfo.environment; environment["PYTHONDONTWRITEBYTECODE"] = "1"; process.environment = environment
+  var environment = ProcessInfo.processInfo.environment; environment["PYTHONDONTWRITEBYTECODE"] = "1"; environment["TOPDF_HWP_FALLBACK_FONT"] = "NanumGothic"; process.environment = environment
   process.arguments = ["-p",policy,engine.path] + (process.arguments ?? [])
   process.executableURL = URL(fileURLWithPath:"/usr/bin/sandbox-exec")
  }
@@ -189,6 +314,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
  }
  func buildUI() {
   window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 920, height: 700), styleMask: [.titled,.closable,.miniaturizable,.resizable], backing: .buffered, defer: false)
+  // The Finder service keeps this window and reuses it after the user closes it.
+  window.isReleasedWhenClosed = false
   window.title = "PDF로 변환"; window.minSize = NSSize(width: 880, height: 560); window.delegate = self; window.center()
   let root = NSStackView(); root.orientation = .vertical; root.spacing = 14; root.edgeInsets = NSEdgeInsets(top: 18, left: 20, bottom: 18, right: 20); root.translatesAutoresizingMaskIntoConstraints = false
   window.contentView!.addSubview(root)

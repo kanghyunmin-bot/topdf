@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os,pathlib,subprocess
+subprocess.run(['python3',str(pathlib.Path(__file__).with_name('build-hwp-gothic.py')),'--prepare-only'],check=True)
 r=pathlib.Path(__file__).resolve().parent.parent
 ndk=pathlib.Path(os.environ.get('ANDROID_NDK_HOME',r/'build/toolchains/android-ndk-r29'))
 prebuilt=ndk/'toolchains/llvm/prebuilt';host=next(prebuilt.iterdir());tool=host/'bin'

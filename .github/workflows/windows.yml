@@ -8,12 +8,16 @@ permissions:
 jobs:
   windows:
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@1.93.0
       - name: Build native Windows app and bundle engines
         shell: pwsh
         run: ./scripts/build-windows.ps1
@@ -39,18 +43,19 @@ jobs:
       - name: Verify text, pages and selected vector output
         shell: pwsh
         run: |
-          pip install pypdf
+          pip install pypdf python-docx
           python tests/validate_windows.py
+          python tests/validate_font_fallback.py build/windows/app
       - name: Package
         shell: pwsh
         run: |
-          Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+          Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip
           Get-FileHash dist/*.zip -Algorithm SHA256 | Format-List | Out-File dist/windows-SHA256.txt
       - uses: actions/upload-artifact@v4
         with:
           name: TopDF-windows-x64-unsigned
           path: |
-            dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+            dist/TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip
             dist/windows-SHA256.txt
             build/windows/tests/*.pdf
             build/windows/tests/test-report.json

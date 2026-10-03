@@ -24,6 +24,8 @@ with zipfile.ZipFile(ROOT/'downloads/pdfbox-android-2.0.27.0.aar') as z:
  for n in z.namelist():
   if n.startswith('assets/') and not n.endswith('/'):
    p=BUILD/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(z.read(n))
+subprocess.run(['python3',str(ROOT/'scripts/prepare-fonts.py')],check=True)
+shutil.copytree(ROOT/'Engines/FallbackFonts',ASSETS/'fallback-fonts',dirs_exist_ok=True)
 licenses=ASSETS/'Licenses'
 shutil.copytree(ROOT/'legal',licenses,dirs_exist_ok=True)
 shutil.copy2(ROOT/'LICENSE',licenses/'TopDF-MIT.txt')
@@ -60,7 +62,12 @@ if not key.exists():
  password.write_text(secrets.token_urlsafe(32)+'\n');password.chmod(0o600)
  subprocess.run([str(JAVA/'bin/keytool'),'-genkeypair','-alias','topdf','-keyalg','RSA','-keysize','2048','-validity','10000','-dname','CN=TopDF Preview, O=kanghyunmin-bot, C=KR','-keystore',str(key),'-storepass:file',str(password),'-keypass:file',str(password)],check=True)
  key.chmod(0o600)
-out=ROOT/'dist/TopDF-1.0.0-rc.2-android-offline-preview.apk';out.parent.mkdir(exist_ok=True)
+out=ROOT/'dist/TopDF-1.0.0-rc.4-android-offline-preview.apk';out.parent.mkdir(exist_ok=True)
 subprocess.run([str(TOOLS/'apksigner'),'sign','--ks',str(key),'--ks-key-alias','topdf','--ks-pass','file:'+str(password),'--out',str(out),str(BUILD/'aligned.apk')],env=env,check=True)
 subprocess.run([str(TOOLS/'apksigner'),'verify','--verbose',str(out)],env=env,check=True)
+# APK plus the selected ABI libraries and first-run engine assets must fit under 500 MB.
+with zipfile.ZipFile(out) as apk:
+ for abi in ['arm64-v8a','x86_64']:
+  payload=out.stat().st_size+sum(i.file_size for i in apk.infolist() if i.filename.startswith(('lib/'+abi+'/','assets/unpack/','assets/fallback-fonts/')))
+  if payload>500_000_000:raise SystemExit('Android installation payload exceeds 500 MB: '+str(payload))
 print('Built:',out)

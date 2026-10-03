@@ -41,14 +41,32 @@ Android 사용법·엔진·소스 빌드는 [Android 안내](platforms/android/R
 
 삭제하려면 앱을 종료하고 앱과 `~/Library/Services/PDF화.workflow`를 휴지통으로 이동합니다. 저장된 PDF는 유지됩니다.
 
+## 로컬 500MB 이하 빌드 (1.0.0-rc.4)
+
+RC4 빌드는 LibreOffice의 도움말, 대부분의 아이콘 테마, 갤러리, 템플릿, Java·Python 자동화, 문서 마법사를 제거합니다. 네이티브 변환 필터, 글꼴, 사전·하이픈 규칙, 로케일과 라이선스는 유지합니다. 다운로드 원본은 바꾸지 않습니다. 글꼴은 원본 파일 그대로 유지하고, 철자 사전·하이픈 규칙을 보존하며 편집용 동의어 사전만 제거합니다. 빌드는 설치된 앱의 파일 크기 합계와 개발 Mac의 실제 할당 용량이 모두 500,000,000바이트 이하여야 통과합니다. 제거 목록과 바이트 수는 앱의 `Contents/Resources/engine-size-report.json`에 기록합니다.
+
+```sh
+python3 scripts/prepare-fonts.py
+python3 scripts/build-hwp-gothic.py
+TOPDF_OUTPUT_DIR=build/min500-arm64 python3 scripts/build-release.py
+TOPDF_ARCH=x86_64 TOPDF_OUTPUT_DIR=build/min500-intel python3 scripts/build-release.py
+python3 tests/validate_release.py 'build/min500-arm64/PDF로 변환.app'
+python3 tests/validate_slim.py 'build/min500-arm64/PDF로 변환.app'
+```
+
+사용 가능한 원래 글꼴은 보존하고, 없는 글꼴은 동봉한 나눔고딕으로 대체합니다. DOCX/XLSX/PPTX 및 ODF의 명시적 글꼴 이름은 임시 복사본에서만 바꿉니다. HWP/HWPX는 정확한 이름 일치를 우선하고 그다음 나눔고딕을 사용합니다. 구형 DOC/XLS/PPT/RTF와 특수 기호의 대체는 엔진 정책이 남아 있습니다. 문서에 포함된 글꼴은 대체 대상으로 잡지 않습니다. 글꼴이 달라지면 줄바꿈·페이지 수가 변할 수 있습니다.
+
+렌더링 비교에는 `pdftoppm`, Pillow, pypdf, python-docx, python-pptx, openpyxl이 필요하며, `build/release`의 기존 전체 엔진 앱을 기준으로 사용합니다. 이 로컬 빌드는 아직 공개 릴리스가 아니며, 경량화와 Developer ID 서명·Apple 공증은 별개의 작업입니다.
+
 ## 소스 빌드
 
 Apple Silicon Mac, Xcode Command Line Tools의 Swift 컴파일러와 Python 3이 필요합니다. 이 저장소에는 대용량 엔진 바이너리와 다운로드 자료를 포함하지 않습니다.
 
 빌드 전 아래 엔진을 준비해야 합니다.
 
-1. The Document Foundation의 공식 LibreOffice 26.2.6.3 Apple Silicon 배포본을 `Engines/LibreOffice.app`에 그대로 놓습니다. 다운로드 SHA-256은 `legal/LibreOffice-binary.sha256`에서 확인합니다. 원본 코드·리소스·서명을 변경하지 마세요.
-2. STAIxBWLB/hwp-cli v1.3.1 macOS arm64 실행 파일을 `Engines/hwp/hwp`에 놓습니다. 라이선스와 출처는 `legal/THIRD_PARTY.html`을 확인하세요.
+1. The Document Foundation의 공식 LibreOffice 26.2.6.3 Apple Silicon 배포본을 `Engines/LibreOffice.app`에 그대로 놓습니다. 다운로드 SHA-256은 `legal/LibreOffice-binary.sha256`에서 확인합니다. 다운로드 원본은 보존하세요. 빌드 스크립트가 앱 내부 복사본에서 headless 변환에 쓰지 않는 리소스와 Python·Java 자동화 구성요소를 제거하고 리소스 서명을 다시 생성합니다. 네이티브 바이너리의 로컬·디버그 심볼도 정리하고 서명을 다시 생성합니다. 실행 코드와 공개 함수 목록은 해시 비교로 보존 여부를 검사합니다.
+2. Rustup을 준비한 뒤 `python3 scripts/build-hwp-gothic.py`로 고정 버전 hwp-cli 1.3.1에 선택적 고딕 대체 글꼴 선호를 적용해 ARM/Intel 엔진을 빌드합니다. 소스와 의존성 잠금은 유지합니다.
+3. `python3 scripts/prepare-fonts.py`로 해시가 고정된 나눔고딕 Regular/Bold를 준비합니다. OFL 고지와 출처는 `legal/THIRD_PARTY.html`에 있습니다.
 
 ```sh
 python3 scripts/build-release.py

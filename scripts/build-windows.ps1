@@ -19,9 +19,20 @@ New-Item -ItemType Directory -Force "$out/Engines" | Out-Null
 $program = Get-ChildItem $extract -Filter soffice.com -Recurse | Select-Object -First 1
 if (!$program) { throw 'LibreOffice program folder was not extracted' }
 Copy-Item (Split-Path (Split-Path $program.FullName -Parent) -Parent) "$out/Engines/LibreOffice" -Recurse -Force
-Expand-Archive downloads/hwp-v1.3.1-x86_64-pc-windows-msvc.zip build/windows/hwp -Force
-$hwp = Get-ChildItem build/windows/hwp -Filter hwp.exe -Recurse | Select-Object -First 1
-Copy-Item $hwp.FullName "$out/Engines/hwp.exe"
+python scripts/prepare-fonts.py
+python scripts/build-hwp-gothic.py --target x86_64-pc-windows-msvc
+if ($LASTEXITCODE -ne 0) { throw 'Modified HWP engine build failed' }
+Copy-Item build/hwp-gothic-src/target/x86_64-pc-windows-msvc/release/hwp.exe "$out/Engines/hwp.exe"
+Copy-Item Engines/FallbackFonts/*.ttf "$out/Engines/LibreOffice/share/fonts/truetype" -Force
+# Keep conversion filters, every vendor font, dictionaries and hyphenation.
+$lo = "$out/Engines/LibreOffice"
+foreach ($relative in @('help','share/gallery','share/template','share/basic','share/Scripts','share/wizards','program/python-core-3.12.12','share/extensions/nlpsolver')) {
+ $path=Join-Path $lo $relative
+ if (Test-Path $path) { Remove-Item $path -Recurse -Force }
+}
+Get-ChildItem "$lo/program" -Directory -Filter 'python-core-*' | Remove-Item -Recurse -Force
+Get-ChildItem "$lo/share/config" -Filter 'images_*.zip' | Where-Object { $_.Name -notin @('images_colibre.zip','images_colibre_dark.zip') } | Remove-Item -Force
+Get-ChildItem "$lo/share/extensions" -Recurse -File | Where-Object { $_.Name -match '^th(es)?_.*\.(dat|idx)$' } | Remove-Item -Force
 # MSI administrative extraction keeps VC runtime DLLs in System64 instead of installing them.
 # Preserve the vendor's exact DLL bytes beside each native executable for clean offline PCs.
 $crt = Join-Path $out 'Engines/LibreOffice/System64'
@@ -60,7 +71,7 @@ Get-ChildItem $dotnetRoot -File | Where-Object { $_.Name -match '^(LICENSE|NOTIC
 Copy-Item "$out/TopDF.deps.json" "$out/Licenses/dotnet-dependencies.json"
 $deps | ConvertTo-Json -Depth 5 | Set-Content "$out/Licenses/nuget-packages.json" -Encoding utf8
 @'
-TopDF 1.0.0-rc.2 Windows x64 — unsigned preview
+TopDF 1.0.0-rc.4 Windows x64 — unsigned preview
 Windows 10 2004 or newer / Windows 11. No Office installation or cloud conversion API required.
 Extract this folder before launching TopDF.exe. Do not run from inside a ZIP viewer.
 Use the app's context-menu button to register PDF conversion for the current user. Windows 11 may show it under Show more options.
@@ -68,3 +79,7 @@ TopDF source: MIT. Engines and dependencies retain their own licenses; see Licen
 Desktop engine corresponding sources: https://github.com/kanghyunmin-bot/topdf/releases/download/v1.0.0-rc.1/TopDF-1.0.0-rc.1-sources.zip
 No Windows publisher certificate / SmartScreen reputation has been obtained. Native runner conversion tests do not replace interactive installation and printing tests on a separate Windows PC.
 '@ | Set-Content "$out/READ-ME-FIRST.txt" -Encoding utf8
+
+$bytes=(Get-ChildItem $out -Recurse -File | Measure-Object -Property Length -Sum).Sum
+@{ version='1.0.0-rc.4'; installed_file_bytes=$bytes; limit_bytes=500000000 } | ConvertTo-Json | Set-Content "$out/size-report.json"
+if ($bytes -gt 500000000) { throw "Windows app exceeds 500 MB: $bytes" }
