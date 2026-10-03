@@ -102,6 +102,13 @@ using System.Runtime.InteropServices;
 public static class TopDFStorage {
  [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
  static extern uint GetCompressedFileSizeW(string file, out uint high);
+ [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+ static extern bool GetDiskFreeSpaceW(string root, out uint sectors, out uint bytes, out uint free, out uint total);
+ public static long AllocationUnit(string root) {
+  uint sectors, bytes, free, total;
+  if(!GetDiskFreeSpaceW(root,out sectors,out bytes,out free,out total))throw new System.ComponentModel.Win32Exception();
+  return (long)sectors*bytes;
+ }
  public static long Size(string file) {
   // WOF LZX stores its compressed payload in an NTFS alternate stream.
   // Querying only the transparent default stream returns its logical size.
@@ -114,7 +121,8 @@ public static class TopDFStorage {
 '@
 $bytes=(Get-ChildItem $out -Recurse -File | Measure-Object -Property Length -Sum).Sum
 Write-Output "Windows logical payload: $bytes bytes"
-$allocated=(Get-ChildItem $out -Recurse -File | ForEach-Object { [TopDFStorage]::Size($_.FullName) } | Measure-Object -Sum).Sum
+$cluster=[TopDFStorage]::AllocationUnit([System.IO.Path]::GetPathRoot($out))
+$allocated=(Get-ChildItem $out -Recurse -File | ForEach-Object { [long]([Math]::Ceiling([TopDFStorage]::Size($_.FullName)/$cluster)*$cluster) } | Measure-Object -Sum).Sum
 Write-Output "Windows WOF/NTFS payload: $allocated bytes"
-@{ version='1.0.0-rc.4'; logical_file_bytes=$bytes; installed_allocated_bytes=$allocated; limit_bytes=500000000; compression='NTFS transparent LZX; required on installation' } | ConvertTo-Json | Set-Content "$out/size-report.json"
+@{ version='1.0.0-rc.4'; logical_file_bytes=$bytes; installed_allocated_bytes=$allocated; limit_bytes=500000000; allocation_unit_bytes=$cluster; measurement='compressed stream bytes rounded up to NTFS allocation units; filesystem metadata excluded'; compression='NTFS transparent LZX; required on installation' } | ConvertTo-Json | Set-Content "$out/size-report.json"
 if ($allocated -gt 500000000) { throw "Windows app exceeds 500 MB on NTFS: $allocated" }

@@ -30,13 +30,16 @@ static class Engine {
  public static readonly string Root=AppContext.BaseDirectory;
  [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern uint GetCompressedFileSizeW(string file,out uint high);
  static long StorageSize(string file){uint high;uint low=GetCompressedFileSizeW(file+":WofCompressedData",out high);if(low!=uint.MaxValue||Marshal.GetLastWin32Error()==0)return((long)high<<32)|low;low=GetCompressedFileSizeW(file,out high);if(low==uint.MaxValue&&Marshal.GetLastWin32Error()!=0)throw new System.ComponentModel.Win32Exception();return((long)high<<32)|low;}
+ [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern bool GetDiskFreeSpaceW(string root,out uint sectors,out uint bytes,out uint free,out uint total);
  public static void EnsureStorage() {
   string marker=Path.Combine(Root,".topdf-rc4-storage-ready");if(File.Exists(marker))return;
   var drive=new DriveInfo(Path.GetPathRoot(Root)!);if(!string.Equals(drive.DriveFormat,"NTFS",StringComparison.OrdinalIgnoreCase))throw new IOException("500MB 이하 설치를 위해 NTFS 드라이브의 쓰기 가능한 폴더에 압축을 풀어주세요.");
   var info=new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"compact.exe")){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true};
   foreach(var arg in new[]{"/C","/S:"+Root.TrimEnd(Path.DirectorySeparatorChar),"/I","/EXE:LZX","*"})info.ArgumentList.Add(arg);
   using var process=Process.Start(info)??throw new IOException("앱 용량 최적화를 시작할 수 없습니다.");var output=process.StandardOutput.ReadToEndAsync();var error=process.StandardError.ReadToEndAsync();process.WaitForExit();Task.WaitAll(output,error);
-  if(Directory.EnumerateFiles(Root,"*",SearchOption.AllDirectories).Sum(StorageSize)>500_000_000)throw new IOException("앱 설치 용량이 500MB를 초과했습니다. NTFS 드라이브의 사용자 폴더에 설치하세요.");
+  if(!GetDiskFreeSpaceW(Path.GetPathRoot(Root)!,out uint sectors,out uint bytes,out _,out _))throw new System.ComponentModel.Win32Exception();
+  long cluster=(long)sectors*bytes;
+  if(Directory.EnumerateFiles(Root,"*",SearchOption.AllDirectories).Sum(file=>((StorageSize(file)+cluster-1)/cluster)*cluster)>500_000_000)throw new IOException("앱 설치 용량이 500MB를 초과했습니다. NTFS 드라이브의 사용자 폴더에 설치하세요.");
   if(process.ExitCode!=0)throw new IOException("앱 폴더를 쓸 수 없습니다. 사용자 폴더에 압축을 풀어주세요.");File.WriteAllText(marker,"NTFS LZX storage preparation completed.");
  }
  public static async Task Convert(string input,string output,CancellationToken ct) {
