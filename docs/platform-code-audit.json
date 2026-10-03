@@ -2073,5 +2073,6 @@
     "physical_intel_test": false,
     "damaged_warning_exact_cause": "not determined on affected Intel Mac"
   },
-  "scope": "Read-only code and packaged native-header review; no new VM/emulator execution, no application source changes. Existing prior test evidence is separate."
+  "scope": "Read-only code and packaged native-header review; no new VM/emulator execution, no application source changes. Existing prior test evidence is separate.",
+  "snapshot_status": "Historical pre-RC4-fix read-only audit; Android path collision and font-policy findings were subsequently fixed. See docs/rc4-verification.json for final artifacts."
 }

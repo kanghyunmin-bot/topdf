@@ -81,13 +81,15 @@
   "physical_intel_mac_test": false,
   "developer_id_and_notarization": false,
   "hwp_upstream_check": {
-    "result": "failed",
+    "result": "passed",
     "rust_fmt_clippy_workspace_tests": "passed",
     "pdf_runner_python_tests": 33,
     "missing_fixture_skips": 47,
     "optional_fixture_skips": 4,
     "public_pdf_parity": "skipped; pinned Poppler 24.02.0 unavailable",
-    "failing_gate": "unmodified scripts/hancom-regression.sh fails /bin/bash -n with unexpected end of file; no changes to this gate",
-    "log": "build/hwp-gothic-check-python312.log"
-  }
+    "log": "build/hwp-rc4-source-check-modern.log",
+    "shell": "Homebrew Bash 5.3.20; bundled macOS Bash 3 is incompatible with upstream regression script",
+    "final_line": "== check: OK (fmt/clippy/test/crate-edges/pdf-runner/structured-corpus/claims/doc-surface/release-block/readiness-selfcheck/skip-accounting/public-parity=skipped) skipped-for-missing-fixtures=47 (optional=4) =="
+  },
+  "installed_app_note": "Local install predates final artifacts; running app was not replaced"
 }

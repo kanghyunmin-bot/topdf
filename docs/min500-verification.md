@@ -1,4 +1,4 @@
-# RC4 local verification
+# RC4 local verification snapshot
 
 Installed application payload: ARM 476,872,704 bytes; Intel 493,166,592 bytes. Limit: 500,000,000 bytes. Both signatures and DMG checksums verified. These are ad hoc signed, unnotarized local artifacts.
 
@@ -8,10 +8,12 @@ Both architectures passed 26 app regression checks and DOCX missing/available-fo
 
 The full and compact engines, using the same new font policy, produced identical extracted text and 72-DPI rendered page pixels for 17 supported fixtures; EPUB was rejected by both. This confirms compaction parity on these fixtures, not Microsoft Office or Hancom layout parity for every document.
 
-HWP source validation ran scripts/check.sh. Rust fmt/clippy/workspace tests and 33 Python runner tests passed. The complete check failed at the original, unmodified hancom-regression shell gate: /bin/bash -n reports unexpected end of file on both the original source and modified copy. 47 fixture-dependent cases were skipped (4 optional), and the pinned public Poppler parity gate was skipped. The exact final line is:
+HWP source validation passed `scripts/check.sh` with Python 3.12 and Homebrew Bash 5.3.20. The macOS bundled Bash 3 is incompatible with the unmodified upstream regression script. Rust fmt/clippy/workspace tests and 33 Python runner tests passed. 47 fixture-dependent cases were skipped (4 optional), and the pinned public Poppler parity gate was skipped. The exact final line is:
 
 ```text
-== check: FAILED (위 게이트 중 실패 있음) skipped-for-missing-fixtures=47 (optional=4) ==
+== check: OK (fmt/clippy/test/crate-edges/pdf-runner/structured-corpus/claims/doc-surface/release-block/readiness-selfcheck/skip-accounting/public-parity=skipped) skipped-for-missing-fixtures=47 (optional=4) ==
 ```
 
-Detailed results: [min500-verification.json](min500-verification.json).
+This local snapshot predates the final packaged release; final cross-platform artifact evidence is in [rc4-verification.json](rc4-verification.json). The running local installed app was not replaced with the final artifact.
+
+Detailed local results: [min500-verification.json](min500-verification.json).

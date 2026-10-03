@@ -40,16 +40,18 @@ macOS 앱은 실제 할당 공간과 파일 크기 합계를 모두 500,000,000�
 | 릴리스 파일 | 용도 |
 | --- | --- |
 | `TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg` | Apple Silicon 앱 설치용, 서명·공증 전 RC |
-| `TopDF-1.0.0-rc.1-sources.zip` | 내장 엔진과 의존성의 대응 소스·라이선스, 일반 사용 시 압축 해제 불필요 |
+| Intel DMG / Windows ZIP / Android APK | 각 플랫폼 사전 릴리스 설치 파일 |
+| `TopDF-1.0.0-rc.4-sources.zip` | 데스크톱 엔진·의존성 원본과 RC4 수정 소스·라이선스 |
+| `TopDF-1.0.0-rc.4-android-sources.zip` | Android JNI·앱·의존성 소스; 원본 LibreOffice Android 소스 링크는 릴리스 설명 참조 |
 | `*-SHA256.txt` | 각 플랫폼 설치 파일의 무결성 확인 |
-| `verification-report.json`, `dmg-verification.json` | 현재 Mac 검사 결과와 검증 범위 |
+| `rc4-verification.json` | RC4 플랫폼별 검사 결과와 검증 범위 |
 | GitHub 자동 생성 `Source code` | TopDF 자체 소스, 내장 엔진 소스 번들과 별개 |
 
 삭제하려면 앱을 종료하고 앱과 `~/Library/Services/PDF화.workflow`를 휴지통으로 이동합니다. 저장된 PDF는 유지됩니다.
 
 ## 로컬 500MB 이하 빌드 (1.0.0-rc.4)
 
-RC4 빌드는 LibreOffice의 도움말, 대부분의 아이콘 테마, 갤러리, 템플릿, Java·Python 자동화, 문서 마법사를 제거합니다. 네이티브 변환 필터, 글꼴, 사전·하이픈 규칙, 로케일과 라이선스는 유지합니다. 다운로드 원본은 바꾸지 않습니다. 글꼴은 원본 파일 그대로 유지하고, 철자 사전·하이픈 규칙을 보존하며 편집용 동의어 사전만 제거합니다. 빌드는 설치된 앱의 파일 크기 합계와 개발 Mac의 실제 할당 용량이 모두 500,000,000바이트 이하여야 통과합니다. 제거 목록과 바이트 수는 앱의 `Contents/Resources/engine-size-report.json`에 기록합니다.
+RC4 빌드는 LibreOffice의 도움말, 대부분의 아이콘 테마, 갤러리, 템플릿, Java·Python 자동화, 문서 마법사를 제거합니다. 네이티브 변환 필터, 글꼴, 하이픈 규칙, 레이아웃 로케일과 라이선스는 유지합니다. 다운로드 원본은 바꾸지 않습니다. macOS는 철자 사전도 보존하고 편집용 동의어 사전을 제거합니다. Windows는 편집용 철자·동의어 사전과 영어·한국어 이외 UI 번역을 제거합니다. 빌드는 설치된 앱의 파일 크기 합계와 개발 Mac의 실제 할당 용량이 모두 500,000,000바이트 이하여야 통과합니다. 제거 목록과 바이트 수는 앱의 `Contents/Resources/engine-size-report.json`에 기록합니다.
 
 ```sh
 python3 scripts/prepare-fonts.py
@@ -62,7 +64,7 @@ python3 tests/validate_slim.py 'build/min500-arm64/PDF로 변환.app'
 
 사용 가능한 원래 글꼴은 보존하고, 없는 글꼴은 동봉한 나눔고딕으로 대체합니다. DOCX/XLSX/PPTX 및 ODF의 명시적 글꼴 이름은 임시 복사본에서만 바꿉니다. HWP/HWPX는 정확한 이름 일치를 우선하고 그다음 나눔고딕을 사용합니다. 구형 DOC/XLS/PPT/RTF와 특수 기호의 대체는 엔진 정책이 남아 있습니다. 문서에 포함된 글꼴은 대체 대상으로 잡지 않습니다. 글꼴이 달라지면 줄바꿈·페이지 수가 변할 수 있습니다.
 
-렌더링 비교에는 `pdftoppm`, Pillow, pypdf, python-docx, python-pptx, openpyxl이 필요하며, `build/release`의 기존 전체 엔진 앱을 기준으로 사용합니다. 이 로컬 빌드는 아직 공개 릴리스가 아니며, 경량화와 Developer ID 서명·Apple 공증은 별개의 작업입니다.
+렌더링 비교에는 `pdftoppm`, Pillow, pypdf, python-docx, python-pptx, openpyxl이 필요하며, `build/release`의 기존 전체 엔진 앱을 기준으로 사용합니다. RC4는 사전 릴리스로 제공하며, 경량화와 Developer ID 서명·Apple 공증은 별개의 작업입니다.
 
 ## 소스 빌드
 
@@ -97,14 +99,14 @@ python3 tests/validate_network.py
 
 TopDF 자체 코드·스크립트·문서는 [MIT License](LICENSE)로 공개합니다. `legal/`의 제3자 라이선스·고지와 내장 엔진·외부 의존성은 각 권리자의 기존 라이선스를 따릅니다. TopDF의 MIT 허가는 제3자 구성요소를 MIT로 재라이선스하지 않습니다.
 
-내장 엔진과 제3자 구성요소의 라이선스는 `legal/`에 별도로 보존합니다. LibreOffice의 MPL-2.0 및 각 의존성 라이선스 조건을 따라 대응 소스와 고지를 제공해야 합니다. RC2의 데스크톱 엔진 버전은 RC1과 같으며 RC1 대응 소스 번들을 계속 제공합니다. Android는 별도의 JNI·의존성 소스 ZIP과 원본 LibreOffice Android 소스 아카이브를 함께 제공합니다. `scripts/package-release.py`는 로컬에 준비한 엔진 소스 자료로 별도 소스 ZIP을 만듭니다. 해당 자료는 Git에서 제외하며, 실제 바이너리 배포 시 함께 제공해야 합니다.
+내장 엔진과 제3자 구성요소의 라이선스는 `legal/`에 별도로 보존합니다. LibreOffice의 MPL-2.0 및 각 의존성 라이선스 조건을 따라 대응 소스와 고지를 제공해야 합니다. RC4 데스크톱 엔진은 RC1과 동일한 LibreOffice 원본과 의존성, 수정된 HWP 글꼴 정책 소스를 대응 소스 번들에 제공합니다. Android는 별도의 JNI·의존성 소스 ZIP과 원본 LibreOffice Android 소스 아카이브를 함께 제공합니다. `scripts/package-release.py`는 로컬에 준비한 엔진 소스 자료로 별도 소스 ZIP을 만듭니다. 해당 자료는 Git에서 제외하며, 실제 바이너리 배포 시 함께 제공해야 합니다.
 
 운영·유지보수: [kanghyunmin-bot](https://github.com/kanghyunmin-bot). 문의·오류 제보는 [GitHub Issues](https://github.com/kanghyunmin-bot/topdf/issues)에서 받습니다. 파일의 경로·내용은 로컬 변환에 사용하며 외부 변환 API·사용 분석·자체 오류 전송 기능이 없습니다. 자세한 내용은 [개인정보 안내](docs/개인정보%20안내.html)를 확인하세요. 인증서 개인 키, 비밀번호, API 토큰은 저장소에 넣지 않습니다.
 
 ## 출시 전 남은 항목
 
-- Developer ID Application 서명과 Apple 공증, 최종 DMG 검증
+- Developer ID Application 서명과 Apple 공증
 - 개발 환경이 없는 별도 Mac과 최소 지원 OS에서 설치·변환·저장 검증
-- 정식 버전의 대응 소스와 최종 배포 파일 해시 갱신
+- Windows 배포자 인증서 및 Android 실제 기기 설치·변환 검사
 
 현재 DMG는 서명·공증 전 RC이며 정식 배포 파일로 표시하면 안 됩니다.
