@@ -76,6 +76,21 @@ jobs:
           pip install pypdf python-docx
           python tests/validate_windows.py
           python tests/validate_font_fallback.py build/windows/app
+      - name: Verify first launch from an uncompressed portable copy
+        shell: pwsh
+        run: |
+          $fresh = Join-Path $pwd 'build/windows/portable-first-launch'
+          Copy-Item build/windows/app $fresh -Recurse
+          Remove-Item "$fresh/.topdf-rc4-storage-ready" -ErrorAction SilentlyContinue
+          compact.exe /U /S:$fresh /I /F '*'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not prepare uncompressed installation test' }
+          $output = Join-Path $pwd 'build/windows/tests/portable-first-launch.pdf'
+          $source = (Resolve-Path tests/sample.docx).Path
+          $p = Start-Process "$fresh/TopDF.exe" -ArgumentList @('--convert-test',"`"$source`"","`"$output`"") -PassThru -Wait
+          if ($p.ExitCode -ne 0 -or !(Test-Path "$fresh/.topdf-rc4-storage-ready") -or !(Test-Path $output)) {
+            Get-Content "$output.error.txt" -ErrorAction SilentlyContinue
+            throw 'Portable first-launch storage or conversion failed'
+          }
       - name: Package
         shell: pwsh
         run: |
