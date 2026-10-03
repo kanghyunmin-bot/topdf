@@ -5,7 +5,14 @@ import ImageIO
 import Darwin
 import CoreText
 
-func gothicFallback() -> String { "나눔고딕" }
+func gothicFallback() -> String {
+ let fontURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Helpers/LibreOffice.app/Contents/Resources/fonts/truetype/NanumGothic-Regular.ttf")
+ if let descriptors = CTFontManagerCreateFontDescriptorsFromURL(fontURL as CFURL) as? [CTFontDescriptor], let descriptor = descriptors.first {
+  var language: Unmanaged<CFString>?
+  if let family = CTFontDescriptorCopyLocalizedAttribute(descriptor,kCTFontFamilyNameAttribute,&language) as? String { return family }
+ }
+ return "NanumGothic"
+}
 final class DocumentFontNames: NSObject, XMLParserDelegate {
  var names = Set<String>(), embedded = Set<String>(), currentFont: String?, embeddedSlideFont = false
  func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attrs: [String:String]) {
