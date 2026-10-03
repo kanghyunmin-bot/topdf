@@ -2,12 +2,15 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 function Fetch-Verified($url,$path,$sha) {
- if (!(Test-Path $path)) { Invoke-WebRequest -Uri $url -OutFile $path }
+ if (!(Test-Path $path)) {
+  & curl.exe -fL --retry 5 --retry-all-errors --connect-timeout 30 $url -o $path
+  if ($LASTEXITCODE -ne 0) { throw "Download failed: $url" }
+ }
  if ((Get-FileHash $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $sha) { throw "SHA256 mismatch: $path" }
 }
 New-Item -ItemType Directory -Force build/windows,downloads,dist | Out-Null
 Fetch-Verified 'https://download.documentfoundation.org/libreoffice/stable/26.2.6/win/x86_64/LibreOffice_26.2.6_Win_x86-64.msi' 'downloads/LibreOffice_26.2.6_Win_x86-64.msi' 'f9877032fd908beb9c0ddf06df4af5c2e85f419c42e14876c4cce5aae5fb2660'
-Fetch-Verified 'https://github.com/STAIxBWLB/hwp-cli/releases/download/v1.3.1/hwp-v1.3.1-x86_64-pc-windows-msvc.zip' 'downloads/hwp-v1.3.1-x86_64-pc-windows-msvc.zip' '307422ebe4c739d825baa6e29fbc3d93e23eb2b15949afb374f4ee0feea9b741'
+
 $extract = Join-Path $root 'build/windows/lo-msi'
 New-Item -ItemType Directory -Force $extract | Out-Null
 $p = Start-Process msiexec.exe -ArgumentList @('/a',"`"$root\downloads\LibreOffice_26.2.6_Win_x86-64.msi`"",'/qn',"TARGETDIR=`"$extract`"") -Wait -PassThru
@@ -33,6 +36,12 @@ foreach ($relative in @('help','share/gallery','share/template','share/basic','s
 Get-ChildItem "$lo/program" -Directory -Filter 'python-core-*' | Remove-Item -Recurse -Force
 Get-ChildItem "$lo/share/config" -Filter 'images_*.zip' | Where-Object { $_.Name -notin @('images_colibre.zip','images_colibre_dark.zip') } | Remove-Item -Force
 Get-ChildItem "$lo/share/extensions" -Recurse -File | Where-Object { $_.Name -match '^th(es)?_.*\.(dat|idx)$' } | Remove-Item -Force
+# Remove editing-only spelling dictionaries while preserving all hyphenation data.
+Get-ChildItem "$lo/share/extensions" -Recurse -File | Where-Object { $_.Extension -in @('.dic','.aff') } | Remove-Item -Force
+# Localized UI labels are unnecessary in the headless renderer. Locale/layout libraries remain.
+Get-ChildItem "$lo/program/resource" -Filter '*.mo' | Where-Object { $_.Name -notmatch '_(en-US|ko)\.mo$' } | Remove-Item -Force
+Get-ChildItem "$lo/share/registry/res" -Filter 'registry_*.xcd' | Where-Object { $_.Name -notin @('registry_en-US.xcd','registry_ko.xcd') } | Remove-Item -Force
+Get-ChildItem $lo -Filter '*.msi' -File | Remove-Item -Force
 # MSI administrative extraction keeps VC runtime DLLs in System64 instead of installing them.
 # Preserve the vendor's exact DLL bytes beside each native executable for clean offline PCs.
 $crt = Join-Path $out 'Engines/LibreOffice/System64'
@@ -42,6 +51,7 @@ Get-ChildItem $crt -Filter '*.dll' -File | ForEach-Object {
  Copy-Item $_.FullName "$out/Engines" -Force
 }
 
+Remove-Item $crt -Recurse -Force
 Copy-Item Assets/AppIcon.ico,LICENSE $out
 Copy-Item legal "$out/Licenses" -Recurse -Force
 Copy-Item docs "$out/Help" -Recurse -Force
@@ -80,6 +90,20 @@ Desktop engine corresponding sources: https://github.com/kanghyunmin-bot/topdf/r
 No Windows publisher certificate / SmartScreen reputation has been obtained. Native runner conversion tests do not replace interactive installation and printing tests on a separate Windows PC.
 '@ | Set-Content "$out/READ-ME-FIRST.txt" -Encoding utf8
 
+
+# NTFS transparent LZX compression preserves every remaining executable byte.
+& compact.exe /C /S:$out /I /F /EXE:LZX | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'NTFS application compression failed' }
+Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+public static class TopDFStorage {
+ [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+ static extern uint GetCompressedFileSizeW(string file, out uint high);
+ public static long Size(string file) { uint high; uint low=GetCompressedFileSizeW(file,out high); if(low==uint.MaxValue && Marshal.GetLastWin32Error()!=0)throw new System.ComponentModel.Win32Exception();return ((long)high<<32)|low; }
+}
+'@
 $bytes=(Get-ChildItem $out -Recurse -File | Measure-Object -Property Length -Sum).Sum
-@{ version='1.0.0-rc.4'; installed_file_bytes=$bytes; limit_bytes=500000000 } | ConvertTo-Json | Set-Content "$out/size-report.json"
-if ($bytes -gt 500000000) { throw "Windows app exceeds 500 MB: $bytes" }
+$allocated=(Get-ChildItem $out -Recurse -File | ForEach-Object { [TopDFStorage]::Size($_.FullName) } | Measure-Object -Sum).Sum
+@{ version='1.0.0-rc.4'; logical_file_bytes=$bytes; installed_allocated_bytes=$allocated; limit_bytes=500000000; compression='NTFS transparent LZX; required on installation' } | ConvertTo-Json | Set-Content "$out/size-report.json"
+if ($allocated -gt 500000000) { throw "Windows app exceeds 500 MB on NTFS: $allocated" }

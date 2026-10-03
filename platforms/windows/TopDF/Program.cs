@@ -12,6 +12,7 @@ using Windows.Storage.Streams;
 namespace TopDF;
 static class Program {
  [STAThread] static int Main(string[] args) {
+  try { Engine.EnsureStorage(); } catch(Exception e) { MessageBox.Show(e.Message,"TopDF 설치"); return 1; }
   ApplicationConfiguration.Initialize();
   if(args.Length==3 && args[0]=="--convert-test") {
    try { Engine.Convert(args[1],args[2],CancellationToken.None).GetAwaiter().GetResult(); return 0; }
@@ -26,6 +27,14 @@ static class Program {
 }
 static class Engine {
  public static readonly string Root=AppContext.BaseDirectory;
+ public static void EnsureStorage() {
+  string marker=Path.Combine(Root,".topdf-rc4-storage-ready");if(File.Exists(marker))return;
+  var drive=new DriveInfo(Path.GetPathRoot(Root)!);if(!string.Equals(drive.DriveFormat,"NTFS",StringComparison.OrdinalIgnoreCase))throw new IOException("500MB 이하 설치를 위해 NTFS 드라이브의 쓰기 가능한 폴더에 압축을 풀어주세요.");
+  var info=new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"compact.exe")){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true};
+  foreach(var arg in new[]{"/C","/S:"+Root.TrimEnd(Path.DirectorySeparatorChar),"/I","/EXE:LZX"})info.ArgumentList.Add(arg);
+  using var process=Process.Start(info)??throw new IOException("앱 용량 최적화를 시작할 수 없습니다.");var output=process.StandardOutput.ReadToEndAsync();var error=process.StandardError.ReadToEndAsync();process.WaitForExit();Task.WaitAll(output,error);
+  if(process.ExitCode!=0)throw new IOException("앱 폴더를 쓸 수 없습니다. 사용자 폴더에 압축을 풀어주세요.");File.WriteAllText(marker,"NTFS LZX storage preparation completed.");
+ }
  public static async Task Convert(string input,string output,CancellationToken ct) {
   if(!File.Exists(input)||new FileInfo(input).Length>512L*1024*1024)throw new Exception("512MB 이하의 파일을 선택하세요.");
   var ext=Path.GetExtension(input).ToLowerInvariant();
