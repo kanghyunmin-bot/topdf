@@ -40,7 +40,7 @@ Get-ChildItem "$lo/share/extensions" -Recurse -File | Where-Object { $_.Name -ma
 # Remove editing-only spelling dictionaries while preserving all hyphenation data.
 Get-ChildItem "$lo/share/extensions" -Recurse -File | Where-Object { $_.Extension -in @('.dic','.aff') } | Remove-Item -Force
 # Localized UI labels are unnecessary in the headless renderer. Locale/layout libraries remain.
-Get-ChildItem "$lo/program/resource" -Filter '*.mo' | Where-Object { $_.Name -notmatch '_(en-US|ko)\.mo$' } | Remove-Item -Force
+Get-ChildItem "$lo/program/resource" -Directory | Where-Object { $_.Name -notin @('en-US','en','ko') } | Remove-Item -Recurse -Force
 Get-ChildItem "$lo/share/registry/res" -Filter 'registry_*.xcd' | Where-Object { $_.Name -notin @('registry_en-US.xcd','registry_ko.xcd') } | Remove-Item -Force
 Get-ChildItem $lo -Filter '*.msi' -File | Remove-Item -Force
 # MSI administrative extraction keeps VC runtime DLLs in System64 instead of installing them.
