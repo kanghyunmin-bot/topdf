@@ -1,4 +1,4 @@
-import hashlib,json,pathlib,subprocess,sys
+import hashlib,json,pathlib,subprocess,sys,os
 from docx import Document
 from docx.shared import Pt
 from pypdf import PdfReader
@@ -39,7 +39,25 @@ with zipfile.ZipFile(root/'tests/sample.hwpx') as original,zipfile.ZipFile(sourc
 process=subprocess.run([str(exe),'--convert-test',str(source),str(out/'missing-hwpx.pdf')],capture_output=True,text=True,timeout=60)
 assert process.returncode==0,process.stderr
 names=[str(font.get_object()['/BaseFont']) for page in PdfReader(out/'missing-hwpx.pdf').pages for font in page['/Resources']['/Font'].get_object().values()]
-assert any('NanumGothic' in name for name in names),names
-results.append({'format':'hwpx','input_font':'TopDF Missing Serif 123','pdf_fonts':names,'passed':True})
+if sys.platform=='win32':
+ # The pure Rust PDF backend intentionally names resources F0/F1, unlike CoreText.
+ # Verify the resolver's exact input-font hashes and byte-identical app output.
+ fonts=app/'Engines/LibreOffice/share/fonts/truetype'
+ expected_hashes={hashlib.sha256((fonts/name).read_bytes()).hexdigest() for name in ['NanumGothic-Regular.ttf','NanumGothic-Bold.ttf']}
+ direct=out/'missing-hwpx-direct.pdf';report=out/'hwp-resolver-report.json'
+ environment=dict(os.environ,TOPDF_HWP_FALLBACK_FONT='NanumGothic')
+ command=[str(app/'Engines/hwp.exe'),'render',str(source),'--output',str(direct),'--format','pdf','--report',str(report)]
+ for directory in [fonts,pathlib.Path(os.environ['LOCALAPPDATA'])/'Microsoft/Windows/Fonts',pathlib.Path(os.environ['WINDIR'])/'Fonts']:
+  command.extend(['--font-dir',str(directory)])
+ process=subprocess.run(command,env=environment,capture_output=True,text=True,timeout=60)
+ assert process.returncode==0,process.stderr
+ resolved=json.loads(report.read_text())
+ assert resolved['complete'] and resolved['font_resolution_complete'],resolved
+ assert {font['resolved_sha256'] for font in resolved['fonts']}==expected_hashes,resolved['fonts']
+ assert resolved['font_coverage']['missing']==0,resolved
+ assert direct.read_bytes()==(out/'missing-hwpx.pdf').read_bytes(),'App PDF differs from the verified resolver output'
+else:
+ assert any('NanumGothic' in name for name in names),names
+results.append({'format':'hwpx','input_font':'TopDF Missing Serif 123','pdf_fonts':names,'passed':True,'identity_check':'exact resolver SHA256 and byte-identical app PDF' if sys.platform=='win32' else 'CoreText embedded PDF font names'})
 print('PASS: HWPX missing',names,flush=True)
 (out/'report.json').write_text(json.dumps(results,indent=2))
