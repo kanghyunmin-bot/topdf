@@ -32,12 +32,12 @@ static class FontFallback {
   if(!new[]{".docx",".docm",".dotx",".pptx",".pptm",".ppsx",".xlsx",".xlsm",".odt",".ods",".odp"}.Contains(Path.GetExtension(input).ToLowerInvariant()))return;
   var available=Available();var embedded=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
   using var zip=ZipFile.Open(input,ZipArchiveMode.Update);
-  var entries=zip.Entries.Where(e=>Selected(e.FullName)).ToList();var xmls=new Dictionary<string,string>();
-  foreach(var entry in entries){if(entry.Length>32*1024*1024)throw new IOException("글꼴 XML 크기가 너무 큽니다.");using var stream=entry.Open();using var reader=new StreamReader(stream,Encoding.UTF8);var xml=reader.ReadToEnd();xmls[entry.FullName]=xml;
+  var entries=zip.Entries.Where(e=>Selected(e.FullName)).ToList();var xmls=new Dictionary<string,string>();var encodings=new Dictionary<string,Encoding>();
+  foreach(var entry in entries){if(entry.Length>32*1024*1024)throw new IOException("글꼴 XML 크기가 너무 큽니다.");using var stream=entry.Open();using var reader=new StreamReader(stream,Encoding.UTF8);var xml=reader.ReadToEnd();xmls[entry.FullName]=xml;encodings[entry.FullName]=reader.CurrentEncoding.CodePage==65001?new UTF8Encoding(false):reader.CurrentEncoding;
    foreach(Match block in Regex.Matches(xml,@"<(?:w:font|p:embeddedFont)\b[^>]*>.*?</(?:w:font|p:embeddedFont)>",RegexOptions.Singleline)){if(!block.Value.Contains("embed"))continue;var name=Regex.Match(block.Value,"(?:w:name|typeface)=[\"']([^\"']+)[\"']");if(name.Success)embedded.Add(System.Net.WebUtility.HtmlDecode(name.Groups[1].Value));}
   }
   foreach(var entry in entries){var xml=xmls[entry.FullName];var changed=Tags.Replace(xml,tag=>Attributes.Replace(tag.Value,attr=>{var name=System.Net.WebUtility.HtmlDecode(attr.Groups[3].Value);if(string.IsNullOrEmpty(name)||name.StartsWith("+")||available.Contains(name)||embedded.Contains(name))return attr.Value;return attr.Value[..(attr.Groups[3].Index-relative(attr))]+Family+attr.Value[(attr.Groups[3].Index-relative(attr)+attr.Groups[3].Length)..];}));
-   if(changed==xml)continue;using var stream=entry.Open();stream.SetLength(0);using var writer=new StreamWriter(stream,new UTF8Encoding(false));writer.Write(changed);
+   if(changed==xml)continue;using var stream=entry.Open();stream.SetLength(0);using var writer=new StreamWriter(stream,encodings[entry.FullName]);writer.Write(changed);
   }
  }
  static int relative(Match match)=>match.Index;

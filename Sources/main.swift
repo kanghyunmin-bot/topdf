@@ -108,7 +108,9 @@ func applyGothicFallback(_ source: URL, helpers: URL, work: URL) throws -> [Stri
   let read = Process(); read.executableURL = URL(fileURLWithPath:"/usr/bin/unzip"); read.arguments = ["-p",source.path,entry]
   let pipe = Pipe(); read.standardOutput = pipe; read.standardError = FileHandle.nullDevice
   try read.run(); let data = pipe.fileHandleForReading.readDataToEndOfFile(); read.waitUntilExit()
-  guard read.terminationStatus == 0, let xml = String(data:data,encoding:.utf8) else { throw fail("문서의 글꼴 XML을 읽지 못했습니다.") }
+  let encoding: String.Encoding = data.starts(with:[0xff,0xfe]) || data.starts(with:[0xfe,0xff]) ? .utf16 : .utf8
+  guard read.terminationStatus == 0 else { throw fail("문서의 글꼴 XML을 읽지 못했습니다.") }
+  guard let xml = String(data:data,encoding:encoding) else { continue }
   let mutable = NSMutableString(string:xml)
   var changed = false
   let matches = fontTags.matches(in:xml,range:NSRange(xml.startIndex...,in:xml)).flatMap { regex.matches(in:xml,range:$0.range) }
@@ -119,7 +121,7 @@ func applyGothicFallback(_ source: URL, helpers: URL, work: URL) throws -> [Stri
   if changed {
    let target = edits.appendingPathComponent(entry)
    try FileManager.default.createDirectory(at:target.deletingLastPathComponent(),withIntermediateDirectories:true)
-   try (mutable as String).write(to:target,atomically:true,encoding:.utf8)
+   try (mutable as String).write(to:target,atomically:true,encoding:encoding)
    let zip = Process(); zip.executableURL = URL(fileURLWithPath:"/usr/bin/zip"); zip.currentDirectoryURL = edits; zip.arguments = ["-q",source.path,entry]
    zip.standardOutput = FileHandle.nullDevice; zip.standardError = FileHandle.nullDevice
    try zip.run(); zip.waitUntilExit()
