@@ -4,7 +4,7 @@ import argparse,hashlib,os,pathlib,shutil,subprocess,tarfile,urllib.request
 root=pathlib.Path(__file__).resolve().parent.parent
 args=argparse.ArgumentParser();args.add_argument('--prepare-only',action='store_true');args.add_argument('--target',action='append');options=args.parse_args()
 src=root/'build/hwp-gothic-src'
-if not src.exists():
+if not (src/'Cargo.toml').exists():
  upstream=root/'build/upstream/hwp-cli-1.3.1'
  if not upstream.exists():
   archive=root/'downloads/hwp-cli-v1.3.1-source.tar.gz';archive.parent.mkdir(parents=True,exist_ok=True)
@@ -16,10 +16,10 @@ if not src.exists():
    for member in bundle.getmembers():
     assert not pathlib.PurePosixPath(member.name).is_absolute() and '..' not in pathlib.PurePosixPath(member.name).parts
    bundle.extractall(upstream.parent)
- shutil.copytree(root/'build/upstream/hwp-cli-1.3.1',src,ignore=shutil.ignore_patterns('target','.git'))
+ shutil.copytree(root/'build/upstream/hwp-cli-1.3.1',src,ignore=shutil.ignore_patterns('target','.git'),dirs_exist_ok=True)
  subprocess.run(['git','init','-b','khm/gothic-font-fallback',str(src)],check=True,stdout=subprocess.DEVNULL)
 p=src/'crates/hwp-render/src/fonts.rs'
-s=p.read_text()
+s=p.read_text(encoding='utf-8')
 needle='''        if let Some(alt) = &alt {
             candidates.push(alt);
         }'''
@@ -38,10 +38,10 @@ replacement='''        // TopDF keeps exact matches first, then prefers a clean 
         }'''
 if 'TOPDF_HWP_FALLBACK_FONT' in s and 'cfg!(target_os = "android")' not in s:
  s=s.replace('let preferred = std::env::var("TOPDF_HWP_FALLBACK_FONT").ok();','let preferred = if cfg!(target_os = "android") { Some("NanumGothic".to_owned()) } else { std::env::var("TOPDF_HWP_FALLBACK_FONT").ok() };')
- p.write_text(s)
+ p.write_text(s,encoding='utf-8')
 if 'TOPDF_HWP_FALLBACK_FONT' not in s:
  assert needle in s
- p.write_text(s.replace(needle,replacement,1))
+ p.write_text(s.replace(needle,replacement,1),encoding='utf-8')
 if options.prepare_only: print('Prepared Gothic HWP source');raise SystemExit(0)
 env=os.environ.copy()
 local=root/'build/toolchains/cargo/bin'

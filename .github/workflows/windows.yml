@@ -18,9 +18,27 @@ jobs:
         with:
           python-version: '3.12'
       - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/cache/restore@v4
+        id: engine-cache
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: windows-rc4-rust193-engines-v1
       - name: Build native Windows app and bundle engines
         shell: pwsh
         run: ./scripts/build-windows.ps1
+      - uses: actions/cache/save@v4
+        if: always() && steps.engine-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: windows-rc4-rust193-engines-v1
       - name: Offline engine conversion tests
         shell: pwsh
         run: |

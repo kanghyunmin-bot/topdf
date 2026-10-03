@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 function Fetch-Verified($url,$path,$sha) {
+ if ((Test-Path $path) -and (Get-FileHash $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $sha) { Remove-Item $path -Force }
  if (!(Test-Path $path)) {
   & curl.exe -fL --retry 5 --retry-all-errors --connect-timeout 30 $url -o $path
   if ($LASTEXITCODE -ne 0) { throw "Download failed: $url" }
