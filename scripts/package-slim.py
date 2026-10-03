@@ -37,6 +37,7 @@ if not (stage / 'Applications').exists():
     'Intel conversion under Rosetta is separate from independent physical Intel Mac validation.\n'
 )
 out = root / f'dist/TopDF-{version}-macos-{arch}-MAX500MB-UNSIGNED.dmg'
+out.parent.mkdir(parents=True, exist_ok=True)
 subprocess.run(['hdiutil', 'create', '-quiet', '-ov', '-volname', 'TopDF RC4',
                 '-srcfolder', str(stage), '-format', 'UDZO', '-imagekey', 'zlib-level=9', str(out)], check=True)
 subprocess.run(['hdiutil', 'verify', str(out)], check=True, stdout=subprocess.DEVNULL)
