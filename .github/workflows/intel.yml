@@ -12,12 +12,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/cache/restore@v4
+        id: engine-cache
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: intel-rc4-rust193-engines-v1
       - name: Prepare verified Intel engines
         run: |
           mkdir -p downloads Engines/intel build
-          curl -fL --retry 3 'https://download.documentfoundation.org/libreoffice/stable/26.2.6/mac/x86_64/LibreOffice_26.2.6_MacOS_x86-64.dmg' -o downloads/intel.dmg
+          curl -fL --retry 5 --retry-all-errors 'https://download.documentfoundation.org/libreoffice/stable/26.2.6/mac/x86_64/LibreOffice_26.2.6_MacOS_x86-64.dmg' -o downloads/intel.dmg
           echo '135b8a95b8133396d54bf8e726dbc0066145efa0d785963fc3d4592acbfcfe5b  downloads/intel.dmg' | shasum -a 256 -c -
-          curl -fL --retry 3 'https://github.com/STAIxBWLB/hwp-cli/releases/download/v1.3.1/hwp-v1.3.1-x86_64-apple-darwin.tar.gz' -o downloads/hwp.tar.gz
+          curl -fL --retry 5 --retry-all-errors 'https://github.com/STAIxBWLB/hwp-cli/releases/download/v1.3.1/hwp-v1.3.1-x86_64-apple-darwin.tar.gz' -o downloads/hwp.tar.gz
           echo 'be087994a1b2f2db0986a2c1571b296c026681b90184c55afcd6894a6e98f093  downloads/hwp.tar.gz' | shasum -a 256 -c -
           hdiutil attach -readonly -nobrowse -mountpoint "$PWD/build/lo-mount" downloads/intel.dmg
           ditto build/lo-mount/LibreOffice.app Engines/intel/LibreOffice.app
@@ -26,29 +35,33 @@ jobs:
           find Engines/intel -type f -name hwp -exec cp '{}' Engines/intel/hwp-temp \;
           mv Engines/intel/hwp-temp Engines/intel/hwp
           chmod +x Engines/intel/hwp
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - name: Build fallback fonts and modified HWP engine
+        run: |
+          python3 scripts/prepare-fonts.py
+          python3 scripts/build-hwp-gothic.py --target x86_64-apple-darwin
+      - uses: actions/cache/save@v4
+        if: always() && steps.engine-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: intel-rc4-rust193-engines-v1
       - name: Build
         env:
           TOPDF_ARCH: x86_64
         run: python3 scripts/build-release.py
       - name: Verify actual Intel conversions
         run: |
-          pip install pypdf Pillow reportlab
+          pip install pypdf Pillow reportlab python-docx
           python3 tests/validate_release.py 'build/release-intel/PDF로 변환.app'
+          python3 tests/validate_font_fallback.py 'build/release-intel/PDF로 변환.app'
           codesign --verify --deep --strict 'build/release-intel/PDF로 변환.app'
           file 'build/release-intel/PDF로 변환.app/Contents/MacOS/TopDF'
       - name: Package DMG
-        run: |
-          mkdir -p build/intel-dmg dist
-          ditto 'build/release-intel/PDF로 변환.app' 'build/intel-dmg/PDF로 변환.app'
-          ln -s /Applications build/intel-dmg/Applications
-          cp LICENSE build/intel-dmg/LICENSE.txt
-          df -h .
-          for attempt in 1 2 3; do
-            if hdiutil create -ov -volname 'TopDF Intel RC' -srcfolder build/intel-dmg -fs HFS+ -format UDZO dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg; then break; fi
-            sleep 5
-          done
-          hdiutil verify dist/TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg
-          shasum -a 256 dist/*.dmg > dist/intel-SHA256.txt
+        run: python3 scripts/package-slim.py 'build/release-intel/PDF로 변환.app' intel
       - uses: actions/upload-artifact@v4
         if: always()
         with:

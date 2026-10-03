@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import pathlib,hashlib,json,zipfile
+import pathlib,hashlib,json,zipfile,subprocess
 R=pathlib.Path(__file__).resolve().parent.parent
 files=[]
 for p in (R/'downloads/android-hwp-crates').glob('*.crate'):files.append((p,'hwp/crates/'+p.name))
@@ -11,8 +11,11 @@ for p in (R/'platforms/android').rglob('*'):
  if p.is_file() and 'target' not in p.parts:files.append((p,'topdf/'+str(p.relative_to(R))))
 for p in (R/'legal').rglob('*'):
  if p.is_file():files.append((p,'licenses/'+str(p.relative_to(R/'legal'))))
+for name in subprocess.check_output(['git','ls-files'],cwd=R,text=True).splitlines():
+ if name.startswith(('scripts/','Assets/')):files.append((R/name,'topdf/'+name))
+for p in (R/'Engines/FallbackFonts').glob('*'):files.append((p,'topdf/Engines/FallbackFonts/'+p.name))
 manifest=[{'path':n,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p,n in files]
-out=R/'dist/TopDF-1.0.0-rc.2-android-sources.zip'
+out=R/'dist/TopDF-1.0.0-rc.4-android-sources.zip'
 with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_STORED) as z:
  for p,n in files:z.write(p,n)
  z.write(R/'LICENSE','topdf/LICENSE')

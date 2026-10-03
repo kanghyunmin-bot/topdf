@@ -1,0 +1,98 @@
+{
+  "arm64": {
+    "preserved_original_font_files": 135,
+    "installed_allocated_bytes": 476872704,
+    "dmg": "dist/TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg",
+    "dmg_bytes": 195370216,
+    "sha256": "1384c6081cb620b4023ced84ac52623576f22a8d6c44abd5b651da722be34b9f",
+    "regression_checks": 26,
+    "font_fallback_checks": [
+      {
+        "input_font": "TopDF Missing Serif 123",
+        "pdf_fonts": [
+          "/AAAAAC+NanumGothic"
+        ],
+        "passed": true
+      },
+      {
+        "input_font": "Liberation Serif",
+        "pdf_fonts": [
+          "/AAAAAC+LiberationSerif",
+          "/AAAAAE+NanumGothic"
+        ],
+        "passed": true
+      },
+      {
+        "format": "hwpx",
+        "input_font": "TopDF Missing Serif 123",
+        "pdf_fonts": [
+          "/AAAAAB+NanumGothicBold",
+          "/AAAAAC+NanumGothic"
+        ],
+        "passed": true
+      }
+    ],
+    "artifact_status": "Final ARM artifact; current executable/HWP engine retested 26 conversions and three font cases"
+  },
+  "intel": {
+    "preserved_original_font_files": 135,
+    "installed_allocated_bytes": 493117440,
+    "dmg": "dist/TopDF-1.0.0-rc.4-macos-intel-MAX500MB-UNSIGNED.dmg",
+    "dmg_bytes": 203903184,
+    "sha256": "b7370d7294f05098708eab616447985b1c93408706751ef930cb78fef69c83bd",
+    "regression_checks": 26,
+    "font_fallback_checks": [
+      {
+        "input_font": "TopDF Missing Serif 123",
+        "pdf_fonts": [
+          "/AAAAAC+NanumGothic"
+        ],
+        "passed": true
+      },
+      {
+        "input_font": "Liberation Serif",
+        "pdf_fonts": [
+          "/AAAAAC+LiberationSerif",
+          "/AAAAAE+NanumGothic"
+        ],
+        "passed": true
+      },
+      {
+        "format": "hwpx",
+        "input_font": "TopDF Missing Serif 123",
+        "pdf_fonts": [
+          "/AAAAAB+NanumGothicBold",
+          "/AAAAAC+NanumGothic"
+        ],
+        "passed": true
+      }
+    ],
+    "artifact_status": "Final native Intel macOS CI DMG",
+    "conversion_ci": "https://github.com/kanghyunmin-bot/topdf/actions/runs/37122504462"
+  },
+  "version": "1.0.0-rc.4",
+  "limit_bytes": 500000000,
+  "installed_app": "/Users/kanghyunmin/Applications/PDF로 변환.app",
+  "backup": "build/backups/20261003-201833/PDF로 변환.app",
+  "rendering_comparison": {
+    "report": "build/slim-validation/min500-arm64/report.json",
+    "same_font_policy_full_engine_reference": "build/reference-gothic/PDF로 변환.app",
+    "supported_fixtures_with_exact_pixels": 17,
+    "both_rejected_epub": 1
+  },
+  "network_outbound_block_test": true,
+  "physical_intel_mac_test": false,
+  "developer_id_and_notarization": false,
+  "hwp_upstream_check": {
+    "result": "passed",
+    "rust_fmt_clippy_workspace_tests": "passed",
+    "pdf_runner_python_tests": 33,
+    "missing_fixture_skips": 47,
+    "optional_fixture_skips": 4,
+    "public_pdf_parity": "skipped; pinned Poppler 24.02.0 unavailable",
+    "log": "build/hwp-rc4-source-check-modern.log",
+    "shell": "Homebrew Bash 5.3.20; bundled macOS Bash 3 is incompatible with upstream regression script",
+    "final_line": "== check: OK (fmt/clippy/test/crate-edges/pdf-runner/structured-corpus/claims/doc-surface/release-block/readiness-selfcheck/skip-accounting/public-parity=skipped) skipped-for-missing-fixtures=47 (optional=4) =="
+  },
+  "installed_app_note": "Local install predates final artifacts; running app was not replaced"
+}

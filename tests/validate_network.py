@@ -1,4 +1,4 @@
-import http.server,threading,subprocess,pathlib,json
+import http.server,threading,subprocess,pathlib,json,sys
 root=pathlib.Path(__file__).resolve().parent.parent
 hits=[]
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -8,7 +8,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
 server=http.server.HTTPServer(('127.0.0.1',0),Handler)
 threading.Thread(target=server.serve_forever,daemon=True).start()
 html=root/'tests/release-fixtures/remote.html';html.write_text(f'<html><meta charset="utf-8"><body><p>LOCAL TEXT 123</p><img src="http://127.0.0.1:{server.server_port}/remote.png"></body></html>')
-exe=root/'build/release/PDF로 변환.app/Contents/MacOS/TopDF'
+app=pathlib.Path(sys.argv[1]) if len(sys.argv)>1 else root/'build/release/PDF로 변환.app'
+exe=app/'Contents/MacOS/TopDF'
 p=subprocess.run([str(exe),'--convert-test',str(html),str(root/'tests/release-output/remote.pdf')],capture_output=True,text=True,timeout=60)
 server.shutdown()
 assert p.returncode==0,(p.stdout,p.stderr)

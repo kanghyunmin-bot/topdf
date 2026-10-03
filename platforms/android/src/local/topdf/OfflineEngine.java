@@ -22,8 +22,9 @@ final class OfflineEngine {
   else {File parent=target.getParentFile();if(!parent.exists())parent.mkdirs();try(InputStream in=a.open(name);OutputStream out=new FileOutputStream(target)){byte[] b=new byte[65536];int n;while((n=in.read(b))!=-1)out.write(b,0,n);}}
  }
  static void prepare(Context context)throws Exception {
-  File marker=new File(context.getFilesDir(),"engine-26.2.6.3-ready");
+  File marker=new File(context.getFilesDir(),"engine-26.2.6.3-topdf-rc4-ready");
   if(!marker.exists()){copyAsset(context.getAssets(),"unpack",new File(context.getApplicationInfo().dataDir));marker.createNewFile();}
+  copyAsset(context.getAssets(),"fallback-fonts",new File(context.getApplicationInfo().dataDir,"user/fonts/topdf"));
   File preferences=new File(context.getApplicationInfo().dataDir,"user/registrymodifications.xcu");preferences.getParentFile().mkdirs();
   String settings="<?xml version=\"1.0\" encoding=\"UTF-8\"?><oor:items xmlns:oor=\"http://openoffice.org/2001/registry\"><item oor:path=\"/org.openoffice.Office.Common/Security/Scripting\"><prop oor:name=\"MacroSecurityLevel\" oor:op=\"fuse\"><value>3</value></prop></item><item oor:path=\"/org.openoffice.Office.Calc/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item><item oor:path=\"/org.openoffice.Office.Writer/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item></oor:items>";
   try(OutputStream out=new FileOutputStream(preferences)){out.write(settings.getBytes(StandardCharsets.UTF_8));}
@@ -49,6 +50,7 @@ final class OfflineEngine {
   } else {
    List<String> office=Arrays.asList("doc","docx","docm","dot","dotx","ppt","pptx","pptm","pps","ppsx","xls","xlsx","xlsm","odt","ods","odp","rtf","csv","tsv","txt","html","htm","epub");
    if(!office.contains(ext))throw new IOException("이 형식은 내장 엔진에서 지원하지 않습니다.");
+   FontFallback.apply(input,ext,FontFallback.available(new File(c.getApplicationInfo().dataDir,"user/fonts")));
    LibreOfficeKit.initializeLibrary();LibreOfficeKit.putenv("SAL_LOK_OPTIONS=compact_fonts");LibreOfficeKit.init(c);
    java.nio.ByteBuffer handle=LibreOfficeKit.getLibreOfficeKitHandle();if(handle==null)throw new IOException("문서 엔진 초기화 실패");
    Office officeEngine=new Office(handle);org.libreoffice.kit.Document doc=officeEngine.documentLoad(android.net.Uri.fromFile(input).toString());
@@ -71,5 +73,5 @@ final class OfflineEngine {
    result.save(output);
   }
  }
- static void copy(File a,File b)throws IOException {try(InputStream in=new FileInputStream(a);OutputStream out=new FileOutputStream(b)){byte[] buffer=new byte[65536];int n;while((n=in.read(buffer))!=-1)out.write(buffer,0,n);}}
+ static void copy(File a,File b)throws IOException {if(a.getCanonicalFile().equals(b.getCanonicalFile()))throw new IOException("입력과 출력 경로가 겹칩니다.");try(InputStream in=new FileInputStream(a);OutputStream out=new FileOutputStream(b)){byte[] buffer=new byte[65536];int n;while((n=in.read(buffer))!=-1)out.write(buffer,0,n);}}
 }

@@ -8,15 +8,49 @@ permissions:
 jobs:
   windows:
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - name: Enable WOF on the disposable Server runner workspace volume
+        shell: pwsh
+        run: |
+          $volume = [System.IO.Path]::GetPathRoot($pwd.Path).TrimEnd('\')
+          fsutil fsinfo volumeinfo $volume
+          fltmc attach Wof $volume
+          fltmc instances
+          $probe = Join-Path $pwd 'build-storage-probe.txt'
+          ('TopDF storage probe ' * 10000) | Set-Content $probe
+          compact.exe /C /EXE:LZX $probe
+          if ($LASTEXITCODE -ne 0) { throw 'Runner workspace does not support WOF LZX' }
+          Remove-Item $probe
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/cache/restore@v4
+        id: engine-cache
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: windows-rc4-rust193-engines-v1
       - name: Build native Windows app and bundle engines
         shell: pwsh
         run: ./scripts/build-windows.ps1
+      - uses: actions/cache/save@v4
+        if: always() && steps.engine-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            downloads
+            ~/.cargo/registry
+            ~/.cargo/git
+            build/hwp-gothic-src/target
+          key: windows-rc4-rust193-engines-v1
       - name: Offline engine conversion tests
         shell: pwsh
         run: |
@@ -39,19 +73,38 @@ jobs:
       - name: Verify text, pages and selected vector output
         shell: pwsh
         run: |
-          pip install pypdf
+          pip install pypdf python-docx
           python tests/validate_windows.py
+          python tests/validate_font_fallback.py build/windows/app
+      - name: Verify first launch from an uncompressed portable copy
+        shell: pwsh
+        run: |
+          $fresh = Join-Path $pwd 'build/windows/portable-first-launch'
+          Copy-Item build/windows/app $fresh -Recurse
+          Remove-Item "$fresh/.topdf-rc4-storage-ready" -ErrorAction SilentlyContinue
+          compact.exe /U /S:$fresh /I /F '*'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not prepare uncompressed installation test' }
+          $output = Join-Path $pwd 'build/windows/tests/portable-first-launch.pdf'
+          $source = (Resolve-Path tests/sample.docx).Path
+          $p = Start-Process "$fresh/TopDF.exe" -ArgumentList @('--convert-test',"`"$source`"","`"$output`"") -PassThru -Wait
+          if ($p.ExitCode -ne 0 -or !(Test-Path "$fresh/.topdf-rc4-storage-ready") -or !(Test-Path $output)) {
+            Get-Content "$output.error.txt" -ErrorAction SilentlyContinue
+            throw 'Portable first-launch storage or conversion failed'
+          }
       - name: Package
         shell: pwsh
         run: |
-          Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+          Remove-Item build/windows/app/.topdf-rc4-storage-ready -ErrorAction SilentlyContinue
+          Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip
           Get-FileHash dist/*.zip -Algorithm SHA256 | Format-List | Out-File dist/windows-SHA256.txt
       - uses: actions/upload-artifact@v4
         with:
           name: TopDF-windows-x64-unsigned
           path: |
-            dist/TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip
+            dist/TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip
             dist/windows-SHA256.txt
             build/windows/tests/*.pdf
             build/windows/tests/test-report.json
+            build/windows/app/size-report.json
+            build/font-fallback-tests/windows/report.json
           retention-days: 14

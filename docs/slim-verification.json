@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-03",
+  "status": "local unsigned slim preview",
+  "architectures": {
+    "arm64": {
+      "dmg": "TopDF-1.0.0-rc.3-macos-arm64-SLIM-UNSIGNED.dmg",
+      "dmg_bytes": 212727798,
+      "engine_before_bytes": 797625326,
+      "engine_after_bytes": 558965351,
+      "functional_checks": 26,
+      "functional_checks_passed": true,
+      "code_signature_integrity": "passed",
+      "dmg_checksum": "passed",
+      "execution": "native Apple Silicon"
+    },
+    "intel": {
+      "dmg": "TopDF-1.0.0-rc.3-macos-intel-SLIM-UNSIGNED.dmg",
+      "dmg_bytes": 221754990,
+      "engine_before_bytes": 810112234,
+      "engine_after_bytes": 572260245,
+      "functional_checks": 26,
+      "functional_checks_passed": true,
+      "code_signature_integrity": "passed",
+      "dmg_checksum": "passed",
+      "execution": "Rosetta on Apple Silicon"
+    }
+  },
+  "arm64_visual_comparisons": [
+    {
+      "format": ".docx",
+      "pages": 2,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".pptx",
+      "pages": 3,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".xlsx",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".hwp",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".hwpx",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".doc",
+      "pages": 2,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".rtf",
+      "pages": 2,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".odt",
+      "pages": 2,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".html",
+      "pages": 2,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".epub",
+      "baseline_supported": false,
+      "slim_supported": false
+    },
+    {
+      "format": ".xls",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".ods",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".csv",
+      "pages": 1,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".ppt",
+      "pages": 3,
+      "text_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "format": ".odp",
+      "pages": 3,
+      "text_equal": true,
+      "pixels_equal": true
+    }
+  ],
+  "network_test": {
+    "arm64": "passed, outbound HTTP denied"
+  },
+  "native_office_probe": {
+    "method": "macOS qlmanage preview export",
+    "docx": "HTML preview generated",
+    "pptx": "HTML preview generated",
+    "xlsx": "HTML preview generated",
+    "hwp": "qlmanage exception; not supported by this probe",
+    "pdf_export": "not implemented or verified"
+  },
+  "limitations": [
+    "No Developer ID or Apple notarization",
+    "Intel tests ran under Rosetta on Apple Silicon, not an independent physical Intel Mac",
+    "Fixture results do not guarantee arbitrary complex document fidelity",
+    "EPUB conversion failed in both the full baseline and trimmed engine"
+  ]
+}

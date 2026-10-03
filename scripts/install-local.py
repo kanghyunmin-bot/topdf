@@ -1,6 +1,6 @@
 import datetime,pathlib,shutil,subprocess,sys
 ROOT=pathlib.Path(__file__).resolve().parent.parent
-app=ROOT/'build/release/PDF로 변환.app'
+app=pathlib.Path(sys.argv[1]).resolve() if len(sys.argv)>1 else ROOT/'build/release/PDF로 변환.app'
 if not app.exists():raise SystemExit('Build with scripts/build-release.py first.')
 target=pathlib.Path.home()/'Applications/PDF로 변환.app'
 # Never replace a running app: the caller must close it first.

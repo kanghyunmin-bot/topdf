@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -12,6 +13,7 @@ using Windows.Storage.Streams;
 namespace TopDF;
 static class Program {
  [STAThread] static int Main(string[] args) {
+  try { Engine.EnsureStorage(); } catch(Exception e) { if(args.Length>=3 && args[0].EndsWith("-test"))File.WriteAllText(args[2]+".error.txt",e.ToString());else MessageBox.Show(e.Message,"TopDF 설치"); return 1; }
   ApplicationConfiguration.Initialize();
   if(args.Length==3 && args[0]=="--convert-test") {
    try { Engine.Convert(args[1],args[2],CancellationToken.None).GetAwaiter().GetResult(); return 0; }
@@ -26,6 +28,20 @@ static class Program {
 }
 static class Engine {
  public static readonly string Root=AppContext.BaseDirectory;
+ [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern uint GetCompressedFileSizeW(string file,out uint high);
+ static long StorageSize(string file){uint high;uint low=GetCompressedFileSizeW(file+":WofCompressedData",out high);if(low!=uint.MaxValue||Marshal.GetLastWin32Error()==0)return((long)high<<32)|low;low=GetCompressedFileSizeW(file,out high);if(low==uint.MaxValue&&Marshal.GetLastWin32Error()!=0)throw new System.ComponentModel.Win32Exception();return((long)high<<32)|low;}
+ [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern bool GetDiskFreeSpaceW(string root,out uint sectors,out uint bytes,out uint free,out uint total);
+ public static void EnsureStorage() {
+  string marker=Path.Combine(Root,".topdf-rc4-storage-ready");if(File.Exists(marker))return;
+  var drive=new DriveInfo(Path.GetPathRoot(Root)!);if(!string.Equals(drive.DriveFormat,"NTFS",StringComparison.OrdinalIgnoreCase))throw new IOException("500MB 이하 설치를 위해 NTFS 드라이브의 쓰기 가능한 폴더에 압축을 풀어주세요.");
+  var info=new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"compact.exe")){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true};
+  foreach(var arg in new[]{"/C","/S:"+Root.TrimEnd(Path.DirectorySeparatorChar),"/I","/EXE:LZX","*"})info.ArgumentList.Add(arg);
+  using var process=Process.Start(info)??throw new IOException("앱 용량 최적화를 시작할 수 없습니다.");var output=process.StandardOutput.ReadToEndAsync();var error=process.StandardError.ReadToEndAsync();process.WaitForExit();Task.WaitAll(output,error);
+  if(!GetDiskFreeSpaceW(Path.GetPathRoot(Root)!,out uint sectors,out uint bytes,out _,out _))throw new System.ComponentModel.Win32Exception();
+  long cluster=(long)sectors*bytes;
+  if(Directory.EnumerateFiles(Root,"*",SearchOption.AllDirectories).Sum(file=>((StorageSize(file)+cluster-1)/cluster)*cluster)>500_000_000)throw new IOException("앱 설치 용량이 500MB를 초과했습니다. NTFS 드라이브의 사용자 폴더에 설치하세요.");
+  if(process.ExitCode!=0)throw new IOException("앱 폴더를 쓸 수 없습니다. 사용자 폴더에 압축을 풀어주세요.");File.WriteAllText(marker,"NTFS LZX storage preparation completed.");
+ }
  public static async Task Convert(string input,string output,CancellationToken ct) {
   if(!File.Exists(input)||new FileInfo(input).Length>512L*1024*1024)throw new Exception("512MB 이하의 파일을 선택하세요.");
   var ext=Path.GetExtension(input).ToLowerInvariant();
@@ -41,11 +57,11 @@ static class Engine {
   try {
    string copy=Path.Combine(dir,Path.GetFileName(input));File.Copy(input,copy);if(ext==".txt"){var bytes=File.ReadAllBytes(copy);try{new System.Text.UTF8Encoding(false,true).GetString(bytes);if(!(bytes.Length>=3&&bytes[0]==239&&bytes[1]==187&&bytes[2]==191))File.WriteAllBytes(copy,new byte[]{239,187,191}.Concat(bytes).ToArray());}catch(System.Text.DecoderFallbackException){}}var pi=new ProcessStartInfo{UseShellExecute=false,CreateNoWindow=true,RedirectStandardError=true,RedirectStandardOutput=true};
    if(ext==".hwp"||ext==".hwpx") {
-    pi.FileName=Path.Combine(Root,"Engines","hwp.exe");foreach(var a in new[]{"render",copy,"--output",output,"--format","pdf","--font-dir",Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),"Fonts")})pi.ArgumentList.Add(a);
+    pi.Environment["TOPDF_HWP_FALLBACK_FONT"]=FontFallback.Family;pi.FileName=Path.Combine(Root,"Engines","hwp.exe");foreach(var a in new[]{"render",copy,"--output",output,"--format","pdf","--font-dir",Path.Combine(Root,"Engines","LibreOffice","share","fonts","truetype"),"--font-dir",Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Microsoft","Windows","Fonts"),"--font-dir",Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),"Fonts")})pi.ArgumentList.Add(a);
    } else {
     var formats=new[]{".doc",".docx",".docm",".dot",".dotx",".ppt",".pptx",".pptm",".pps",".ppsx",".xls",".xlsx",".xlsm",".odt",".ods",".odp",".rtf",".csv",".tsv",".txt",".html",".htm",".epub"};
     if(!formats.Contains(ext))throw new Exception("지원하지 않는 파일 형식입니다.");
-    string profile=Path.Combine(dir,"profile");Directory.CreateDirectory(profile+"/user");
+    FontFallback.Apply(copy);string profile=Path.Combine(dir,"profile");Directory.CreateDirectory(profile+"/user");
     File.WriteAllText(profile+"/user/registrymodifications.xcu","<?xml version=\"1.0\"?><oor:items xmlns:oor=\"http://openoffice.org/2001/registry\"><item oor:path=\"/org.openoffice.Office.Common/Security/Scripting\"><prop oor:name=\"MacroSecurityLevel\" oor:op=\"fuse\"><value>3</value></prop></item><item oor:path=\"/org.openoffice.Office.Calc/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item><item oor:path=\"/org.openoffice.Office.Writer/Content/Update\"><prop oor:name=\"Link\" oor:op=\"fuse\"><value>0</value></prop></item></oor:items>");
     pi.FileName=Path.Combine(Root,"Engines","LibreOffice","program","soffice.com");pi.Environment["PYTHONDONTWRITEBYTECODE"]="1";
     foreach(var a in new[]{"-env:UserInstallation="+new Uri(profile).AbsoluteUri,"--headless","--nologo","--nodefault","--norestore","--convert-to","pdf","--outdir",dir,copy})pi.ArgumentList.Add(a);
