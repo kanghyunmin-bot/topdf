@@ -11,6 +11,18 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - name: Enable WOF on the disposable Server runner workspace volume
+        shell: pwsh
+        run: |
+          $volume = [System.IO.Path]::GetPathRoot($pwd.Path).TrimEnd('\')
+          fsutil fsinfo volumeinfo $volume
+          fltmc attach Wof $volume
+          fltmc instances
+          $probe = Join-Path $pwd 'build-storage-probe.txt'
+          ('TopDF storage probe ' * 10000) | Set-Content $probe
+          compact.exe /C /EXE:LZX $probe
+          if ($LASTEXITCODE -ne 0) { throw 'Runner workspace does not support WOF LZX' }
+          Remove-Item $probe
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'

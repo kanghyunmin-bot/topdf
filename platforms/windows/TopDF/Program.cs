@@ -13,7 +13,7 @@ using Windows.Storage.Streams;
 namespace TopDF;
 static class Program {
  [STAThread] static int Main(string[] args) {
-  try { Engine.EnsureStorage(); } catch(Exception e) { MessageBox.Show(e.Message,"TopDF 설치"); return 1; }
+  try { Engine.EnsureStorage(); } catch(Exception e) { if(args.Length>=3 && args[0].EndsWith("-test"))File.WriteAllText(args[2]+".error.txt",e.ToString());else MessageBox.Show(e.Message,"TopDF 설치"); return 1; }
   ApplicationConfiguration.Initialize();
   if(args.Length==3 && args[0]=="--convert-test") {
    try { Engine.Convert(args[1],args[2],CancellationToken.None).GetAwaiter().GetResult(); return 0; }
