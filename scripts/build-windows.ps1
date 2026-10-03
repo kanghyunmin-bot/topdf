@@ -94,7 +94,7 @@ No Windows publisher certificate / SmartScreen reputation has been obtained. Nat
 
 
 # NTFS transparent LZX compression preserves every remaining executable byte.
-& compact.exe /C /S:$out /I /F /EXE:LZX | Out-Null
+& compact.exe /C /S:$out /I /F /EXE:LZX "*"
 if ($LASTEXITCODE -ne 0) { throw 'NTFS application compression failed' }
 Add-Type @'
 using System;
@@ -102,10 +102,19 @@ using System.Runtime.InteropServices;
 public static class TopDFStorage {
  [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
  static extern uint GetCompressedFileSizeW(string file, out uint high);
- public static long Size(string file) { uint high; uint low=GetCompressedFileSizeW(file,out high); if(low==uint.MaxValue && Marshal.GetLastWin32Error()!=0)throw new System.ComponentModel.Win32Exception();return ((long)high<<32)|low; }
+ public static long Size(string file) {
+  // WOF LZX stores its compressed payload in an NTFS alternate stream.
+  // Querying only the transparent default stream returns its logical size.
+  uint high; uint low=GetCompressedFileSizeW(file+":WofCompressedData",out high);
+  if(low!=uint.MaxValue || Marshal.GetLastWin32Error()==0)return ((long)high<<32)|low;
+  low=GetCompressedFileSizeW(file,out high);
+  if(low==uint.MaxValue && Marshal.GetLastWin32Error()!=0)throw new System.ComponentModel.Win32Exception();return ((long)high<<32)|low;
+ }
 }
 '@
 $bytes=(Get-ChildItem $out -Recurse -File | Measure-Object -Property Length -Sum).Sum
+Write-Output "Windows logical payload: $bytes bytes"
 $allocated=(Get-ChildItem $out -Recurse -File | ForEach-Object { [TopDFStorage]::Size($_.FullName) } | Measure-Object -Sum).Sum
+Write-Output "Windows WOF/NTFS payload: $allocated bytes"
 @{ version='1.0.0-rc.4'; logical_file_bytes=$bytes; installed_allocated_bytes=$allocated; limit_bytes=500000000; compression='NTFS transparent LZX; required on installation' } | ConvertTo-Json | Set-Content "$out/size-report.json"
 if ($allocated -gt 500000000) { throw "Windows app exceeds 500 MB on NTFS: $allocated" }
