@@ -1,0 +1,338 @@
+{
+  "version": "1.0.0-rc.4",
+  "scope": "iOS excluded; native-header/source/build review and documented conversion checks. No local VM/emulator launched. GitHub hosted native-target CI runners are virtual machines and are not independent physical-device installation tests.",
+  "limit_bytes": 500000000,
+  "developer_id_notarization": false,
+  "windows_publisher_certificate": false,
+  "platforms": {
+    "macos_arm64": {
+      "native_binary_count": 144,
+      "architecture_or_minimum_os_mismatches": [],
+      "external_non_system_dependencies": [],
+      "original_font_files_preserved": 135,
+      "artifact": "TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg",
+      "bytes": 195370216,
+      "sha256": "1384c6081cb620b4023ced84ac52623576f22a8d6c44abd5b651da722be34b9f",
+      "minimum_macos": "13.0",
+      "logical_file_bytes": 467612434,
+      "installed_allocated_bytes": 476872704,
+      "regression_checks": 26,
+      "font_fallback_checks": 3,
+      "signature": "ad hoc, deep/strict verified",
+      "dmg_integrity": "hdiutil verify passed",
+      "physical_independent_installation": false,
+      "execution": "development Apple Silicon Mac",
+      "conversion_ci": null
+    },
+    "macos_intel": {
+      "native_binary_count": 144,
+      "architecture_or_minimum_os_mismatches": [],
+      "external_non_system_dependencies": [],
+      "original_font_files_preserved": 135,
+      "artifact": "TopDF-1.0.0-rc.4-macos-intel-MAX500MB-UNSIGNED.dmg",
+      "bytes": 203903184,
+      "sha256": "b7370d7294f05098708eab616447985b1c93408706751ef930cb78fef69c83bd",
+      "minimum_macos": "13.0",
+      "logical_file_bytes": 483843883,
+      "installed_allocated_bytes": 493117440,
+      "regression_checks": 26,
+      "font_fallback_checks": 3,
+      "signature": "ad hoc, deep/strict verified",
+      "dmg_integrity": "hdiutil verify passed",
+      "physical_independent_installation": false,
+      "execution": "GitHub Intel macOS 15 x86_64 runner",
+      "conversion_ci": "https://github.com/kanghyunmin-bot/topdf/actions/runs/37122504462"
+    },
+    "android": {
+      "platform": "Android",
+      "version": "1.0.0-rc.4",
+      "artifact": "TopDF-1.0.0-rc.4-android-offline-preview.apk",
+      "sha256": "2f7d00195b3263f53322bc2649b0fcc6ba558faac52fc026bacf57a416e518c4",
+      "bytes": 177029651,
+      "physical_device_execution": false,
+      "new_emulator_execution": false,
+      "host_java_fallback_policy_test": "passed: absent/available/embedded fonts, UTF-8/UTF-16 XML, text/media/style preservation, bilingual font aliases",
+      "path_collision_fix": "input copies in a separate input subdirectory; self-copy guard",
+      "signing": "APK v2/v3 verified with persistent preview key",
+      "native": [
+        {
+          "file": "lib/arm64-v8a/libsmime3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libnssdbm3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libnssutil3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libsoftokn3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libssl3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libplc4.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libnss3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libfreebl3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libc++_shared.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libplds4.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libnssckbi.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libnspr4.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libsqlite3.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/libtopdf_hwp.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/arm64-v8a/liblo-native-code.so",
+          "machine": 183,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libsmime3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libnssdbm3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libnssutil3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libsoftokn3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libssl3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libplc4.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libnss3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libfreebl3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libc++_shared.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libplds4.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libnssckbi.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libnspr4.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libsqlite3.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/libtopdf_hwp.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        },
+        {
+          "file": "lib/x86_64/liblo-native-code.so",
+          "machine": 62,
+          "minimum_LOAD_alignment": 16384
+        }
+      ],
+      "payload_by_abi": {
+        "arm64-v8a": {
+          "apk_plus_extracted_native_and_engine_bytes": 404840914,
+          "filesystem_and_dex_cache_overhead": "not measured on physical device"
+        },
+        "x86_64": {
+          "apk_plus_extracted_native_and_engine_bytes": 415260290,
+          "filesystem_and_dex_cache_overhead": "not measured on physical device"
+        }
+      },
+      "internet_permission": false,
+      "host_java_file_copy_test": "passed: self-copy rejected before truncation; input preserved; normal copy byte-identical"
+    },
+    "windows_x64": {
+      "artifact": "TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip",
+      "bytes": 312208768,
+      "sha256": "958a923ad5900c1d1a8184d83e128ecf0acfd886cf7bfa1b0431f71b65356b7c",
+      "minimum_os": "Windows 10 2004 (19041) / Windows 11 x64",
+      "runtime": ".NET 8 self-contained; no separately installed Office engine required",
+      "size": {
+        "installed_allocated_bytes": 306503680.0,
+        "compression": "NTFS transparent LZX; required on installation",
+        "logical_file_bytes": 829002931.0,
+        "measurement": "compressed stream bytes rounded up to NTFS allocation units; filesystem metadata excluded",
+        "allocation_unit_bytes": 4096,
+        "version": "1.0.0-rc.4",
+        "limit_bytes": 500000000
+      },
+      "regression_checks": {
+        "passed": true,
+        "checks": [
+          "docx",
+          "pptx",
+          "xlsx",
+          "hwp",
+          "hwpx",
+          "range-0",
+          "range-1",
+          "range-2",
+          "text"
+        ],
+        "network": "outbound firewall denied during conversion"
+      },
+      "font_fallback_checks": [
+        {
+          "input_font": "TopDF Missing Serif 123",
+          "pdf_fonts": [
+            "/BAAAAA+NanumGothic"
+          ],
+          "passed": true
+        },
+        {
+          "input_font": "Arial",
+          "pdf_fonts": [
+            "/BAAAAA+ArialMT",
+            "/CAAAAA+NanumGothic"
+          ],
+          "passed": true
+        },
+        {
+          "format": "hwpx",
+          "input_font": "TopDF Missing Serif 123",
+          "pdf_fonts": [
+            "/AAAAAA+F0",
+            "/BAAAAA+F1"
+          ],
+          "passed": true,
+          "identity_check": "exact resolver SHA256 and byte-identical app PDF"
+        }
+      ],
+      "portable_uncompressed_first_launch": "Passed storage optimization + DOCX conversion; marker excluded from distributed ZIP",
+      "native": {
+        "native_x64_count": 207,
+        "vendor_x86_auxiliary": [
+          "Engines/LibreOffice/System/concrt140.dll",
+          "Engines/LibreOffice/System/msvcp140.dll",
+          "Engines/LibreOffice/System/msvcp140_1.dll",
+          "Engines/LibreOffice/System/msvcp140_2.dll",
+          "Engines/LibreOffice/System/msvcp140_atomic_wait.dll",
+          "Engines/LibreOffice/System/msvcp140_codecvt_ids.dll",
+          "Engines/LibreOffice/System/vccorlib140.dll",
+          "Engines/LibreOffice/System/vcruntime140.dll",
+          "Engines/LibreOffice/System/vcruntime140_threads.dll",
+          "Engines/LibreOffice/program/spsupp_x86.dll",
+          "Engines/LibreOffice/program/twain32shim.exe"
+        ],
+        "auxiliary_reason": "Vendor 32-bit TWAIN scanner/Windows spelling integration helpers and their separate System CRT directory; main app, LibreOffice renderer and HWP engine are x64",
+        "managed_assembly_count": 465,
+        "native_architecture_mismatches": [],
+        "packaged_storage_marker": false
+      },
+      "conversion_ci": "https://github.com/kanghyunmin-bot/topdf/actions/runs/37123230302",
+      "physical_independent_installation": false,
+      "signing": "unsigned"
+    }
+  },
+  "hwp_source_validation": {
+    "result": "passed",
+    "rust_fmt_clippy_workspace_tests": "passed",
+    "pdf_runner_python_tests": 33,
+    "missing_fixture_skips": 47,
+    "optional_fixture_skips": 4,
+    "public_pdf_parity": "skipped; pinned Poppler 24.02.0 unavailable",
+    "log": "build/hwp-rc4-source-check-modern.log",
+    "shell": "Homebrew Bash 5.3.20; bundled macOS Bash 3 is incompatible with upstream regression script",
+    "final_line": "== check: OK (fmt/clippy/test/crate-edges/pdf-runner/structured-corpus/claims/doc-surface/release-block/readiness-selfcheck/skip-accounting/public-parity=skipped) skipped-for-missing-fixtures=47 (optional=4) =="
+  },
+  "limitations": [
+    "Missing-font substitution can change wrapping and pagination; legacy Office/special-glyph fallback remains engine-controlled.",
+    "500MB checks exclude document working space and platform caches; Android installed filesystem/DEX overhead is not measured on physical devices.",
+    "The existing Intel damaged warning exact cause is undetermined; ad hoc signatures do not replace Developer ID and notarization.",
+    "HWP check passed with 47 fixture-dependent skips (4 optional) and skipped pinned public PDF parity."
+  ],
+  "compaction_rendering_comparison": {
+    "report": "build/slim-validation/min500-arm64/report.json",
+    "same_font_policy_full_engine_reference": "build/reference-gothic/PDF로 변환.app",
+    "supported_fixtures_with_exact_pixels": 17,
+    "both_rejected_epub": 1
+  },
+  "macos_outbound_network_test": {
+    "passed": true,
+    "requests": 0,
+    "evidence": "build/rc4-arm-network-final.log"
+  },
+  "android_upstream_sources": {
+    "file": "org.documentfoundation.libreoffice_131_src.tar.gz",
+    "sha256": "0e102144a7cce24e7291e744bef87a573dfb629d595e6a40f0d9fc8a4accb82b",
+    "original_sources": "https://f-droid.org/repo/org.documentfoundation.libreoffice_131_src.tar.gz"
+  }
+}

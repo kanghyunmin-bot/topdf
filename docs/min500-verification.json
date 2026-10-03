@@ -3,8 +3,8 @@
     "preserved_original_font_files": 135,
     "installed_allocated_bytes": 476872704,
     "dmg": "dist/TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg",
-    "dmg_bytes": 195388122,
-    "sha256": "04d3fc95871671f263f45d73bd11a136d7ee5c569d5f1421563a94e05923bf42",
+    "dmg_bytes": 195370216,
+    "sha256": "1384c6081cb620b4023ced84ac52623576f22a8d6c44abd5b651da722be34b9f",
     "regression_checks": 26,
     "font_fallback_checks": [
       {
@@ -31,14 +31,15 @@
         ],
         "passed": true
       }
-    ]
+    ],
+    "artifact_status": "Final ARM artifact; current executable/HWP engine retested 26 conversions and three font cases"
   },
   "intel": {
     "preserved_original_font_files": 135,
-    "installed_allocated_bytes": 493166592,
+    "installed_allocated_bytes": 493117440,
     "dmg": "dist/TopDF-1.0.0-rc.4-macos-intel-MAX500MB-UNSIGNED.dmg",
-    "dmg_bytes": 205860447,
-    "sha256": "1c4b5d57e7e10205c024e0ecf8f12ebece5af7afdabb932c0dd14aaf3c2fb1e1",
+    "dmg_bytes": 203903184,
+    "sha256": "b7370d7294f05098708eab616447985b1c93408706751ef930cb78fef69c83bd",
     "regression_checks": 26,
     "font_fallback_checks": [
       {
@@ -65,7 +66,9 @@
         ],
         "passed": true
       }
-    ]
+    ],
+    "artifact_status": "Final native Intel macOS CI DMG",
+    "conversion_ci": "https://github.com/kanghyunmin-bot/topdf/actions/runs/37122504462"
   },
   "version": "1.0.0-rc.4",
   "limit_bytes": 500000000,
