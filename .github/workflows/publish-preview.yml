@@ -1,4 +1,4 @@
-name: Publish verified RC2 preview artifacts
+name: Publish verified RC4 preview artifacts
 on:
   workflow_dispatch:
     inputs:
@@ -26,7 +26,7 @@ jobs:
           [[ "$RUN_ID" =~ ^[0-9]+$ ]]
           gh run watch "$RUN_ID" --exit-status --interval 30 --repo '${{ github.repository }}'
           test "$(gh api repos/${{ github.repository }}/actions/runs/$RUN_ID --jq .conclusion)" = success
-          gh release view v1.0.0-rc.2 --repo '${{ github.repository }}'
+          gh release view v1.0.0-rc.4 --repo '${{ github.repository }}'
       - uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.platform == 'windows' && 'TopDF-windows-x64-unsigned' || 'TopDF-macos-intel-unsigned' }}
@@ -38,19 +38,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ '${{ matrix.platform }}' = windows ]; then
-            package=$(find artifact -name 'TopDF-1.0.0-rc.2-windows-x64-UNSIGNED.zip')
+            package=$(find artifact -name 'TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip')
             report=$(find artifact -name 'test-report.json')
             cp "$report" windows-verification.json
             sha256sum "$package" | sed 's@  .*/@  @' > windows-SHA256.txt
-            test "$(gh release view v1.0.0-rc.2 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
-            gh release upload v1.0.0-rc.2 --clobber "$package" windows-SHA256.txt windows-verification.json --repo '${{ github.repository }}'
+            test "$(gh release view v1.0.0-rc.4 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
+            gh release upload v1.0.0-rc.4 --clobber "$package" windows-SHA256.txt windows-verification.json --repo '${{ github.repository }}'
           else
-            package=$(find artifact -name 'TopDF-1.0.0-rc.2-macos-intel-UNSIGNED.dmg')
+            package=$(find artifact -name 'TopDF-1.0.0-rc.4-macos-intel-MAX500MB-UNSIGNED.dmg')
             report=$(find artifact -name 'test-report.json')
             cp "$report" intel-verification.json
             sha256sum "$package" | sed 's@  .*/@  @' > intel-SHA256.txt
-            test "$(gh release view v1.0.0-rc.2 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
-            gh release upload v1.0.0-rc.2 --clobber "$package" intel-SHA256.txt intel-verification.json --repo '${{ github.repository }}'
+            test "$(gh release view v1.0.0-rc.4 --json isDraft --jq .isDraft --repo '${{ github.repository }}')" = true
+            gh release upload v1.0.0-rc.4 --clobber "$package" intel-SHA256.txt intel-verification.json --repo '${{ github.repository }}'
           fi
   android-engine-source:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          name=$(gh release view v1.0.0-rc.2 --json assets --jq '.assets[] | select(.name == "org.documentfoundation.libreoffice_131_src.tar.gz") | .name' --repo '${{ github.repository }}')
+          name=$(gh release view v1.0.0-rc.4 --json assets --jq '.assets[] | select(.name == "org.documentfoundation.libreoffice_131_src.tar.gz") | .name' --repo '${{ github.repository }}')
           if [ -n "$name" ]; then echo "present=true" >> "$GITHUB_OUTPUT"; fi
       - name: Fetch exact original Android engine source
         if: steps.existing.outputs.present != 'true'
@@ -71,4 +71,4 @@ jobs:
         if: steps.existing.outputs.present != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload v1.0.0-rc.2 org.documentfoundation.libreoffice_131_src.tar.gz --repo '${{ github.repository }}'
+        run: gh release upload v1.0.0-rc.4 org.documentfoundation.libreoffice_131_src.tar.gz --repo '${{ github.repository }}'
