@@ -6,7 +6,7 @@ namespace TopDF;
 static class FontFallback {
  public const string Family="NanumGothic";
  static readonly Regex Tags=new(@"<(?:[A-Za-z_][\w.-]*:)?(?:rFonts|latin|ea|cs|font|name|font-face)\b[^>]*>");
- static readonly Regex Attributes=new("(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\\s*=\\s*([\"'])(.*?)\\2");
+ static readonly Regex Attributes=new("(?<![\\w:.-])(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\\s*=\\s*([\"'])(.*?)\\2");
  static bool Selected(string n)=>n.EndsWith(".xml")&&(n.StartsWith("word/")||n.StartsWith("ppt/")||n=="xl/styles.xml"||n.StartsWith("xl/theme/")||n=="styles.xml"||n=="content.xml");
  static IEnumerable<string> Aliases(string path){
   var result=new List<string>();try{

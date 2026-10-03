@@ -49,6 +49,7 @@ jobs:
       - name: Package
         shell: pwsh
         run: |
+          Remove-Item build/windows/app/.topdf-rc4-storage-ready -ErrorAction SilentlyContinue
           Compress-Archive build/windows/app/* dist/TopDF-1.0.0-rc.4-windows-x64-UNSIGNED.zip
           Get-FileHash dist/*.zip -Algorithm SHA256 | Format-List | Out-File dist/windows-SHA256.txt
       - uses: actions/upload-artifact@v4
@@ -59,4 +60,6 @@ jobs:
             dist/windows-SHA256.txt
             build/windows/tests/*.pdf
             build/windows/tests/test-report.json
+            build/windows/app/size-report.json
+            build/font-fallback-tests/windows/report.json
           retention-days: 14

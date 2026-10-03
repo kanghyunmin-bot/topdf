@@ -93,7 +93,7 @@ func applyGothicFallback(_ source: URL, helpers: URL, work: URL) throws -> [Stri
  let entries = String(data:list,encoding:.utf8)?.split(separator:"\n").map(String.init) ?? []
  let edits = work.appendingPathComponent("font-edits",isDirectory:true)
  try FileManager.default.createDirectory(at:edits,withIntermediateDirectories:true)
- let pattern = #"(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\s*=\s*(["'])(.*?)\2"#
+ let pattern = #"(?<![\w:.-])(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\s*=\s*(["'])(.*?)\2"#
  let regex = try NSRegularExpression(pattern:pattern)
  let fontTags = try NSRegularExpression(pattern:#"<(?:[A-Za-z_][\w.-]*:)?(?:rFonts|latin|ea|cs|font|name|font-face)\b[^>]*>"#)
  for entry in entries where entry.hasSuffix(".xml") && (entry.hasPrefix("word/") || entry.hasPrefix("ppt/") || entry == "xl/styles.xml" || entry.hasPrefix("xl/theme/") || entry == "styles.xml" || entry == "content.xml") {

@@ -10,7 +10,7 @@ import java.util.zip.*;
 final class FontFallback {
  static final String FAMILY="NanumGothic";
  static final Pattern TAG=Pattern.compile("<(?:[A-Za-z_][\\w.-]*:)?(?:rFonts|latin|ea|cs|font|name|font-face)\\b[^>]*>");
- static final Pattern ATTRIBUTE=Pattern.compile("(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\\s*=\\s*([\"'])(.*?)\\2");
+ static final Pattern ATTRIBUTE=Pattern.compile("(?<![\\w:.-])(w:ascii|w:hAnsi|w:eastAsia|w:cs|typeface|svg:font-family|w:name|val)\\s*=\\s*([\"'])(.*?)\\2");
  static boolean supported(String ext){return Arrays.asList("docx","docm","dotx","pptx","pptm","ppsx","xlsx","xlsm","odt","ods","odp").contains(ext);}
  static boolean selected(String name){return name.endsWith(".xml")&&(name.startsWith("word/")||name.startsWith("ppt/")||name.equals("xl/styles.xml")||name.startsWith("xl/theme/")||name.equals("styles.xml")||name.equals("content.xml"));}
  static String decode(String s){return s.replace("&quot;","\"").replace("&apos;","'").replace("&lt;","<").replace("&gt;",">").replace("&amp;","&");}
