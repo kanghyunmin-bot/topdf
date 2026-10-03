@@ -21,6 +21,10 @@ public final class FontFallbackHostTest {
    if(!xml.contains("w:ascii=\"NanumGothic\"")||!xml.contains("w:hAnsi=\"Arial\"")||!xml.contains("w:ascii=\"Embedded Custom\"")||!xml.contains("<w:t>Missing Serif</w:t>")||!xml.contains("w:val=\"Custom Style\""))throw new AssertionError(xml);
    if(!Arrays.equals(new byte[]{1,2,3,4},FontFallback.read(z.getInputStream(z.getEntry("word/media/raw.bin")))))throw new AssertionError("media changed");
   }
+  File utf16=new File(dir,"utf16.docx");
+  try(ZipOutputStream z=new ZipOutputStream(new FileOutputStream(utf16))){z.putNextEntry(new ZipEntry("word/document.xml"));z.write(document.getBytes(StandardCharsets.UTF_16));z.closeEntry();}
+  FontFallback.apply(utf16,"docx",available);
+  try(ZipFile z=new ZipFile(utf16)){byte[] bytes=FontFallback.read(z.getInputStream(z.getEntry("word/document.xml")));String xml=new String(bytes,StandardCharsets.UTF_16);if(!xml.contains("NanumGothic")||!xml.contains("<w:t>Missing Serif</w:t>"))throw new AssertionError("UTF16 XML corrupted");}
   Set<String> aliases=new HashSet<>();FontFallback.fontNames(new File(args[0]),aliases);
   if(!aliases.contains("nanumgothic")||!aliases.contains("나눔고딕"))throw new AssertionError(aliases);
   System.out.println("PASS: missing-font replacement, available and embedded preservation, text/media preservation, font aliases");
