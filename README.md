@@ -4,26 +4,32 @@ macOS·Windows·Android에서 문서를 기기 안에서 PDF로 변환합니다.
 
 <img src="Assets/AppIcon.png" alt="TopDF 앱 아이콘" width="160">
 
-[다운로드](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.2) · [버그 제보 / 문의](https://github.com/kanghyunmin-bot/topdf/issues) · [MIT 라이선스](LICENSE)
+[다운로드](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.4) · [버그 제보 / 문의](https://github.com/kanghyunmin-bot/topdf/issues) · [MIT 라이선스](LICENSE)
 
 ## 현재 상태
 
-1.0.0-rc.2는 플랫폼 확대 사전 릴리스입니다. 모든 지원 변환은 오프라인에서 실행됩니다. 복잡한 수식·차트·레이아웃과 글꼴 차이는 검토가 필요하며, 임의의 모든 파일 형식과 완전한 원본 재현을 보장하지 않습니다.
+1.0.0-rc.4는 경량화·글꼴 정책 통일 사전 릴리스입니다. 모든 지원 변환은 오프라인에서 실행됩니다. 복잡한 수식·차트·레이아웃과 글꼴 차이는 검토가 필요하며, 임의의 모든 파일 형식과 완전한 원본 재현을 보장하지 않습니다.
 
 | 플랫폼 | 설치 파일 | 확인한 범위 |
 | --- | --- | --- |
 | Apple Silicon Mac, macOS 13+ | ARM64 DMG | 개발 Mac 변환·저장 26개 검사, 이전 RC의 Finder·저장·인쇄창 UI 검사 |
-| Intel Mac, macOS 13+ | Intel DMG | 실제 Intel macOS 15 CI에서 변환·저장 26개 검사 |
-| Windows x64, Windows 10 2004+/11 | ZIP 압축 해제 후 TopDF.exe | 실제 Windows CI에서 외부 통신 차단 후 Office·한글 변환, 한글 내용·페이지·범위·방향·텍스트 검사 |
-| Android 8+, ARM64/x86_64 | APK | ARM64 Android 15 에뮬레이터의 Wi-Fi/모바일 데이터 비활성 상태에서 13개 문서·TIFF·범위·방향 검사; INTERNET 권한 없음 |
+| Intel Mac, macOS 13+ | Intel DMG | Intel macOS 15 CI에서 변환·저장 26개 검사 |
+| Windows x64, Windows 10 2004+/11 | ZIP 압축 해제 후 TopDF.exe | Windows x64 CI에서 외부 통신 차단 후 Office·한글 변환, 한글 내용·페이지·범위·방향·텍스트 검사 |
+| Android 8+, ARM64/x86_64 | APK | RC4 두 ABI 네이티브 빌드·Java 글꼴 정책 단위 검사·APK 서명/16KB 정렬/인터넷 권한 부재 검사. RC2에는 에뮬레이터 변환 13개 검사 기록이 있으나 RC4의 실제 기기 검증을 대신하지 않음 |
 
 macOS Developer ID 서명·Apple 공증, Windows 배포자 인증서, 독립된 실제 기기와 최소 지원 OS의 설치·인쇄 검증은 남아 있습니다. Android x86_64 엔진은 컴파일 검증을 했으며 실제 실행 검증은 ARM64를 대상으로 했습니다. Android APK는 유지 가능한 사전 릴리스 키로 서명했습니다. 정식 앱 스토어 배포 버전이 아닙니다.
 
 Android 사용법·엔진·소스 빌드는 [Android 안내](platforms/android/README.md)를 확인하세요. Windows 앱의 `우클릭 메뉴 추가` 버튼은 현재 사용자에게 메뉴를 등록하며, Windows 11에서는 `더 많은 옵션 표시` 안에 보일 수 있습니다. 앱 폴더를 옮겼다면 다시 등록합니다.
 
+## 용량과 글꼴 정책
+
+macOS 앱은 실제 할당 공간과 파일 크기 합계를 모두 500,000,000바이트 이하로 검사합니다. Windows x64는 변환 필터와 런타임을 유지하고 NTFS 투명 LZX 압축 후 실제 파일 저장 공간을 500,000,000바이트 이하로 검사합니다. Windows의 논리적 파일 크기 합계는 더 크며, NTFS의 쓰기 가능한 사용자 폴더에서 처음 실행하면 같은 압축을 적용합니다. FAT/exFAT 설치는 지원하지 않습니다. Android는 APK와 해당 ABI 라이브러리, 첫 실행 시 복사하는 엔진·글꼴 자산의 합계를 검사합니다. 기기별 파일시스템·DEX 캐시·문서 작업 공간은 별도이며 실제 기기의 전체 설치 공간은 미측정입니다.
+
+모든 플랫폼에서 사용 가능한 원래 글꼴은 유지하고, 현대 Office/ODF의 없는 명시적 글꼴 이름은 나눔고딕으로 대체합니다. HWP/HWPX도 정확한 이름 일치 다음에 나눔고딕을 사용합니다. 일반/굵은 글꼴을 포함하며 원본 문서를 바꾸지 않습니다. 구형 Office·특수 기호는 엔진 정책이 남아 있고, 글꼴 변경으로 줄바꿈과 페이지 수가 달라질 수 있습니다. iOS와 Windows ARM64·32비트 Android는 이번 배포의 지원 대상이 아닙니다.
+
 ## 다운로드와 설치
 
-[Releases](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.1)에서 `TopDF-1.0.0-rc.2-macos-arm64-UNSIGNED.dmg`를 다운로드합니다. **이 버전은 Developer ID 서명·Apple 공증 전 사전 릴리스입니다. macOS가 실행을 차단할 수 있으며, 설치·실행이 검증된 정식 버전은 아닙니다.**
+[Releases](https://github.com/kanghyunmin-bot/topdf/releases/tag/v1.0.0-rc.4)에서 `TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg`를 다운로드합니다. **이 버전은 Developer ID 서명·Apple 공증 전 사전 릴리스입니다. macOS가 실행을 차단할 수 있으며, 설치·실행이 검증된 정식 버전은 아닙니다.**
 
 1. DMG를 열어 `PDF로 변환.app`을 응용 프로그램 폴더로 복사합니다.
 2. 앱을 한 번 실행해 Finder 메뉴를 등록합니다.
@@ -33,7 +39,7 @@ Android 사용법·엔진·소스 빌드는 [Android 안내](platforms/android/R
 
 | 릴리스 파일 | 용도 |
 | --- | --- |
-| `TopDF-1.0.0-rc.2-macos-arm64-UNSIGNED.dmg` | Apple Silicon 앱 설치용, 서명·공증 전 RC |
+| `TopDF-1.0.0-rc.4-macos-arm64-MAX500MB-UNSIGNED.dmg` | Apple Silicon 앱 설치용, 서명·공증 전 RC |
 | `TopDF-1.0.0-rc.1-sources.zip` | 내장 엔진과 의존성의 대응 소스·라이선스, 일반 사용 시 압축 해제 불필요 |
 | `*-SHA256.txt` | 각 플랫폼 설치 파일의 무결성 확인 |
 | `verification-report.json`, `dmg-verification.json` | 현재 Mac 검사 결과와 검증 범위 |
